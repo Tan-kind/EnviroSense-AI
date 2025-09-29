@@ -41,16 +41,6 @@ export default function EnviroSenseHome() {
 
   const primaryFeatures = [
     {
-      id: "dashboard",
-      title: "Climate Dashboard",
-      description:
-        "Real-time environmental monitoring with weather data and climate alerts",
-      icon: BarChart3,
-      gradient: "from-orange-500 to-red-600",
-      href: "/dashboard",
-      stats: "Live Climate Intelligence",
-    },
-    {
       id: "drought-crops",
       title: "Drought-Resistant Crops",
       description:
@@ -118,15 +108,6 @@ export default function EnviroSenseHome() {
       gradient: "from-blue-400 to-indigo-600",
       href: "/chat",
       stats: "Climate Guidance",
-    },
-    {
-      id: "simulator",
-      title: "Impact Predictor",
-      description: "Model future environmental impact of your actions",
-      icon: Calculator,
-      gradient: "from-orange-400 to-red-600",
-      href: "/simulator",
-      stats: "Climate Action Modeling",
     },
     {
       id: "goals",

@@ -377,37 +377,30 @@ export function FarmEquipmentCalculator() {
       </div>
 
       {/* Equipment Comparison */}
-      <Card>
+      <Card className="bg-gray-50 dark:bg-gray-950 border-gray-200 dark:border-gray-800">
         <CardHeader>
-          <CardTitle>global Farm Equipment Efficiency Guide</CardTitle>
+          <CardTitle className="text-gray-700 dark:text-gray-300">
+            Farm Equipment Efficiency Guide Resources
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold text-green-600 mb-2">Most Efficient</h4>
-              <ul className="text-sm space-y-1">
-                <li>• Solar-powered equipment</li>
-                <li>• Electric tractors (Tesla, Monarch)</li>
-                <li>• Precision GPS systems</li>
-                <li>• Variable rate technology</li>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <h4 className="font-semibold mb-2">Government Programs</h4>
+              <ul className="space-y-1">
+                <li>• Agricultural Equipment Tax Credits</li>
+                <li>• Clean Energy Equipment Rebates</li>
+                <li>• Farm Modernization Grants</li>
+                <li>• Sustainable Agriculture Incentives</li>
               </ul>
             </div>
-            <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold text-yellow-600 mb-2">Moderate Efficiency</h4>
-              <ul className="text-sm space-y-1">
-                <li>• Modern diesel with DPF</li>
-                <li>• Biodiesel blends (B20)</li>
-                <li>• Tier 4 emission standards</li>
-                <li>• Regular maintenance programs</li>
-              </ul>
-            </div>
-            <div className="p-4 border rounded-lg">
-              <h4 className="font-semibold text-red-600 mb-2">Upgrade Needed</h4>
-              <ul className="text-sm space-y-1">
-                <li>• Pre-2010 diesel equipment</li>
-                <li>• No emission controls</li>
-                <li>• Poor maintenance history</li>
-                <li>• Oversized for farm operations</li>
+            <div>
+              <h4 className="font-semibold mb-2">Industry Resources</h4>
+              <ul className="space-y-1">
+                <li>• Equipment Dealers Association</li>
+                <li>• Agricultural Machinery Manufacturers</li>
+                <li>• Farm Equipment Efficiency Standards</li>
+                <li>• Maintenance and Training Programs</li>
               </ul>
             </div>
           </div>
