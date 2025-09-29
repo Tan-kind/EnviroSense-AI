@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { AuthProvider } from "@/components/auth-provider";
 import { KeyboardNavigationProvider } from "@/components/ui/keyboard-navigation-provider";
 import { ThemeProvider } from "@/components/theme-provider";
+import StoryblokProvider from "@/components/StoryblokProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,19 +21,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <ThemeProvider>
-          <KeyboardNavigationProvider>
-            <AuthProvider>
-              <main id="main-content" tabIndex={-1}>
-                <Suspense fallback={null}>{children}</Suspense>
-              </main>
-            </AuthProvider>
-          </KeyboardNavigationProvider>
-        </ThemeProvider>
-        <Analytics />
-      </body>
-    </html>
+    <StoryblokProvider>
+      <html lang="en">
+        <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+          <ThemeProvider>
+            <KeyboardNavigationProvider>
+              <AuthProvider>
+                <main id="main-content" tabIndex={-1}>
+                  <Suspense fallback={null}>{children}</Suspense>
+                </main>
+              </AuthProvider>
+            </KeyboardNavigationProvider>
+          </ThemeProvider>
+          <Analytics />
+        </body>
+      </html>
+    </StoryblokProvider>
   );
 }
