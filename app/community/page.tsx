@@ -10,25 +10,26 @@ import { storyblokService } from '@/lib/storyblok-service'
 import type { CommunityUpdate, EventItem, NewsItem } from '@/lib/storyblok-service'
 import { LanguageSelector } from '@/components/ui/language-selector'
 import { translationService } from '@/lib/translation-service'
+import { useCountryTheme } from '@/hooks/useCountryTheme'
 import Image from 'next/image'
 
 export default function CommunityPage() {
   const [communityUpdates, setCommunityUpdates] = useState<CommunityUpdate[]>([])
   const [environmentalEvents, setEnvironmentalEvents] = useState<EventItem[]>([])
   const [latestNews, setLatestNews] = useState<NewsItem[]>([])
-  const [selectedCountry, setSelectedCountry] = useState('usa')
   const [selectedLanguage, setSelectedLanguage] = useState('en')
   const [loading, setLoading] = useState(true)
   const [translations, setTranslations] = useState<any>({})
+  const { country } = useCountryTheme()
 
   useEffect(() => {
     const fetchCommunityData = async () => {
       setLoading(true)
       try {
         const [updates, events, news] = await Promise.all([
-          storyblokService.getCommunityUpdates(selectedCountry),
-          storyblokService.getEnvironmentalEvents(selectedCountry),
-          storyblokService.getLatestNews(selectedCountry)
+          storyblokService.getCommunityUpdates(country, selectedLanguage),
+          storyblokService.getEnvironmentalEvents(country, selectedLanguage),
+          storyblokService.getLatestNews(country, selectedLanguage)
         ])
         
         setCommunityUpdates(updates)
@@ -42,7 +43,7 @@ export default function CommunityPage() {
     }
 
     fetchCommunityData()
-  }, [selectedCountry])
+  }, [country, selectedLanguage])
 
   useEffect(() => {
     const loadTranslations = async () => {
@@ -99,25 +100,24 @@ export default function CommunityPage() {
           </p>
         </div>
 
-        {/* Country Selection */}
-        <div className="flex justify-center mb-8">
-          <div className="flex bg-white dark:bg-gray-800 rounded-lg p-1 shadow-md">
-            <Button
-              variant={selectedCountry === 'usa' ? 'default' : 'ghost'}
-              onClick={() => setSelectedCountry('usa')}
-              className="px-6 py-2"
-            >
-              🇺🇸 United States
-            </Button>
-            <Button
-              variant={selectedCountry === 'india' ? 'default' : 'ghost'}
-              onClick={() => setSelectedCountry('india')}
-              className="px-6 py-2"
-            >
-              🇮🇳 India
-            </Button>
+        {/* Current Country Display */}
+        {/* <div className="flex justify-center mb-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 shadow-md">
+            <div className="flex items-center gap-2 text-lg font-medium">
+              <span>📍 Showing content for:</span>
+              <span className="text-blue-600 dark:text-blue-400">
+                {country === 'usa' ? '🇺🇸 United States' : 
+                 country === 'india' ? '🇮🇳 India' : 
+                 `🌍 ${country.toUpperCase()}`}
+              </span>
+            </div>
+            <p className="text-sm text-gray-500 mt-1">
+              {country === 'usa' || country === 'india' ? 
+                'Content from Storyblok CMS' : 
+                'Fallback content (change location on home page for CMS content)'}
+            </p>
           </div>
-        </div>
+        </div> */}
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="updates" className="w-full">

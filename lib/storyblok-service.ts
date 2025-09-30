@@ -75,7 +75,7 @@ class StoryblokService {
     return getStoryblokApi()
   }
 
-  async getResourceSection(country: string, feature: string): Promise<ResourceSection | null> {
+  async getResourceSection(country: string, feature: string, language: string = 'en'): Promise<ResourceSection | null> {
     try {
       const countryCode = country.toLowerCase()
       const featureSlug = feature.toLowerCase().replace(/[-_]/g, '-')
@@ -86,7 +86,9 @@ class StoryblokService {
       console.log('API instance created:', !!api)
       
       const { data } = await api.get(`cdn/stories/resources/${countryCode}/${featureSlug}`, {
-        version: 'published'
+        version: 'published',
+        language: language,
+        fallback_lang: 'en'
       })
 
       console.log('Raw Storyblok response:', JSON.stringify(data, null, 2))
@@ -107,7 +109,7 @@ class StoryblokService {
     }
   }
 
-  async getCountryTheme(country: string): Promise<CountryTheme | null> {
+  async getCountryTheme(country: string, language: string = 'en'): Promise<CountryTheme | null> {
     try {
       const countryCode = country.toLowerCase()
       
@@ -115,7 +117,9 @@ class StoryblokService {
       
       const { data: allStories } = await this.getApi().get('cdn/stories', {
         version: 'published',
-        starts_with: 'themes/'
+        starts_with: 'themes/',
+        language: language,
+        fallback_lang: 'en'
       })
       
       console.log('Available theme stories:', allStories.stories.map((s: any) => s.full_slug))
@@ -142,14 +146,16 @@ class StoryblokService {
     }
   }
 
-  async getCommunityUpdates(country: string): Promise<CommunityUpdate[]> {
+  async getCommunityUpdates(country: string, language: string = 'en'): Promise<CommunityUpdate[]> {
     try {
       const countryCode = country.toLowerCase()
       
       console.log(`Fetching community updates for: ${countryCode}`)
       
       const { data } = await this.getApi().get(`cdn/stories/community-hub/${countryCode}/resource-updates`, {
-        version: 'published'
+        version: 'published',
+        language: language,
+        fallback_lang: 'en'
       })
 
       if (data && data.story && data.story.content) {
@@ -163,19 +169,20 @@ class StoryblokService {
     }
   }
 
-  async getEnvironmentalEvents(country: string): Promise<EventItem[]> {
+  async getEnvironmentalEvents(country: string, language: string = 'en'): Promise<EventItem[]> {
     try {
       const countryCode = country.toLowerCase()
       
       console.log(`Fetching environmental events for: ${countryCode}`)
       
-      // Fetch all stories from the environmental-events folder
       const { data } = await this.getApi().get(`cdn/stories`, {
         version: 'published',
         starts_with: `events-news/${countryCode}/environmental-events/`,
-        per_page: 100
+        per_page: 100,
+        language: language,
+        fallback_lang: 'en'
       })
-
+      
       if (data && data.stories && Array.isArray(data.stories)) {
         const events: EventItem[] = []
         
@@ -204,17 +211,18 @@ class StoryblokService {
     }
   }
 
-  async getLatestNews(country: string): Promise<NewsItem[]> {
+  async getLatestNews(country: string, language: string = 'en'): Promise<NewsItem[]> {
     try {
       const countryCode = country.toLowerCase()
       
       console.log(`Fetching latest news for: ${countryCode}`)
       
-      // Fetch all stories from the latest-news folder
       const { data } = await this.getApi().get(`cdn/stories`, {
         version: 'published',
         starts_with: `events-news/${countryCode}/latest-news/`,
-        per_page: 100
+        per_page: 100,
+        language: language,
+        fallback_lang: 'en'
       })
 
       if (data && data.stories && Array.isArray(data.stories)) {

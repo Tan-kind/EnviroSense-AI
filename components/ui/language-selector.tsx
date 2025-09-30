@@ -53,6 +53,7 @@ export function LanguageSelector({
         <Button 
           variant="outline" 
           className={`${buttonSizes[size]} flex items-center gap-2 bg-white/80 backdrop-blur-sm border-gray-200 hover:bg-white/90`}
+          aria-label="Select language"
         >
           <Languages className="h-4 w-4" />
           <span className="hidden sm:inline">{currentLang.flag}</span>
@@ -60,12 +61,12 @@ export function LanguageSelector({
           <ChevronDown className="h-3 w-3" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48 max-h-64 overflow-y-auto">
+      <DropdownMenuContent align="end" className="w-48 max-h-64 overflow-y-auto z-50">
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
             onClick={() => handleLanguageSelect(language.code)}
-            className={`flex items-center gap-3 cursor-pointer ${
+            className={`flex items-center gap-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 ${
               selectedLanguage === language.code ? 'bg-blue-50 dark:bg-blue-950' : ''
             }`}
           >

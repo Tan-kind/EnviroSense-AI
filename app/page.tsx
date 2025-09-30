@@ -172,7 +172,11 @@ export default function EnviroSenseHome() {
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         {/* Background with gradient overlay */}
         <div
-          className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-teal-900/20"
+          className={`absolute inset-0 ${
+            themeData?.background_image_url 
+              ? 'bg-gradient-to-br from-gray-900/20 via-gray-800/30 to-gray-900/40' 
+              : 'bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-teal-900/20'
+          }`}
           style={{
             backgroundImage: themeData?.background_image_url ? `url(${themeData.background_image_url})` : undefined,
             backgroundSize: 'cover',
@@ -180,7 +184,7 @@ export default function EnviroSenseHome() {
           }}
         >
           {themeData?.background_image_url && (
-            <div className="absolute inset-0 bg-black/50 dark:bg-black/70" />
+            <div className="absolute inset-0 bg-black/60 dark:bg-black/70" />
           )}
         </div>
 
@@ -195,7 +199,9 @@ export default function EnviroSenseHome() {
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white drop-shadow-lg">
+              <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-bold drop-shadow-lg ${
+                themeData?.background_image_url ? 'text-white' : 'text-gray-900 dark:text-white'
+              }`}>
                 <span className="block">
                   {themeData?.hero_title || "Climate Action"}
                 </span>
@@ -203,7 +209,9 @@ export default function EnviroSenseHome() {
                   Made Simple
                 </span>
               </h1>
-              <p className="text-xl sm:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
+              <p className={`text-xl sm:text-2xl max-w-3xl mx-auto leading-relaxed drop-shadow-md ${
+                themeData?.background_image_url ? 'text-white/90' : 'text-gray-700 dark:text-gray-300'
+              }`}>
                 {themeData?.hero_subtitle ||
                   "Empowering rural communities with AI-driven environmental solutions. From drought-resistant crops to renewable energy optimization."}
               </p>
@@ -269,7 +277,7 @@ export default function EnviroSenseHome() {
 
 
       {/* Primary Features */}
-      <section className="pb-20 bg-white/50 dark:bg-gray-900/50">
+      <section className="pt-16 pb-20 bg-white/50 dark:bg-gray-900/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
