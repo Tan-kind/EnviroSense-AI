@@ -180,7 +180,7 @@ export default function EnviroSenseHome() {
           }}
         >
           {themeData?.background_image_url && (
-            <div className="absolute inset-0 bg-black/40 dark:bg-black/60" />
+            <div className="absolute inset-0 bg-black/50 dark:bg-black/70" />
           )}
         </div>
 
@@ -195,15 +195,15 @@ export default function EnviroSenseHome() {
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white drop-shadow-lg">
                 <span className="block">
                   {themeData?.hero_title || "Climate Action"}
                 </span>
-                <span className="block bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent drop-shadow-lg">
                   Made Simple
                 </span>
               </h1>
-              <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl sm:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
                 {themeData?.hero_subtitle ||
                   "Empowering rural communities with AI-driven environmental solutions. From drought-resistant crops to renewable energy optimization."}
               </p>

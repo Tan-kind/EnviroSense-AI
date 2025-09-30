@@ -92,11 +92,13 @@ export function LocationSelector({
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    const savedLocation = localStorage.getItem('selectedLocation')
-    if (savedLocation) {
-      const country = ALL_COUNTRIES.find(c => c.code === savedLocation)
-      if (country) {
+    const savedLocationData = localStorage.getItem('envirosense-location')
+    if (savedLocationData) {
+      try {
+        const country = JSON.parse(savedLocationData)
         setSelectedCountry(country)
+      } catch (error) {
+        console.error('Error parsing saved location:', error)
       }
     }
   }, [])
@@ -111,12 +113,12 @@ export function LocationSelector({
     setIsOpen(false)
     setSearchTerm('')
     
-    localStorage.setItem('selectedLocation', country.code)
+    localStorage.setItem('envirosense-location', JSON.stringify(country))
     
     await new Promise(resolve => setTimeout(resolve, 800))
     
     window.dispatchEvent(new CustomEvent('locationChanged', { 
-      detail: { country: country.code } 
+      detail: country 
     }))
     
     onLocationChange?.(country)

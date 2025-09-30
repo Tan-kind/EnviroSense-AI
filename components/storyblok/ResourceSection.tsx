@@ -28,6 +28,7 @@ interface ResourceSectionProps {
 }
 
 export default function ResourceSection({ blok }: ResourceSectionProps) {
+
   const renderResourceCategory = (category: ResourceCategory) => (
     <div key={category.category_title} className="space-y-4">
       <div className="flex items-center gap-2">
@@ -95,9 +96,11 @@ export default function ResourceSection({ blok }: ResourceSectionProps) {
         <CardTitle className="text-blue-800 dark:text-blue-200 flex items-center gap-2">
           <div className="w-2 h-6 bg-blue-500 rounded-full"></div>
           {getResourceTitle(blok.feature_name)} Resources
-          <Badge variant="outline" className="ml-auto text-xs">
-            {blok.country?.toUpperCase() || 'GLOBAL'}
-          </Badge>
+          <div className="ml-auto">
+            <Badge variant="outline" className="text-xs">
+              {blok.country?.toUpperCase() || 'GLOBAL'}
+            </Badge>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
