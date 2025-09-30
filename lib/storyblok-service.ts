@@ -48,19 +48,29 @@ class StoryblokService {
   async getResourceSection(country: string, feature: string): Promise<ResourceSection | null> {
     try {
       const countryCode = country.toLowerCase()
-      const featureSlug = this.getFeatureSlug(feature)
+      const featureSlug = feature.toLowerCase().replace(/[^a-z0-9]/g, '-')
       
-      if (!featureSlug) {
-        console.warn(`Feature "${feature}" not supported`)
-        return null
+      // Try country-specific first, then fallback to global
+      const slugs = [
+        `resources/${countryCode}/${featureSlug}`,
+        `resources/global/${featureSlug}`
+      ]
+
+      for (const slug of slugs) {
+        try {
+          const { data } = await this.getApi().get(`cdn/stories/${slug}`, {
+            version: 'published',
+            resolve_links: 'url'
+          })
+
+          return this.transformResourceSection(data.story.content)
+        } catch (slugError) {
+          console.warn(`Story not found: ${slug}`)
+          continue
+        }
       }
 
-      const { data } = await this.getApi().get(`cdn/stories/${countryCode}/${featureSlug}`, {
-        version: 'published',
-        resolve_links: 'url'
-      })
-
-      return this.transformResourceSection(data.story.content)
+      return null
     } catch (error) {
       console.error(`Failed to fetch resource section for ${country}/${feature}:`, error)
       return null
@@ -165,9 +175,9 @@ class StoryblokService {
   }
 
   getFallbackCountryTheme(country: string): CountryTheme {
-    const themes = {
-      'USA': {
-        country_code: 'USA',
+    const themes: Record<string, CountryTheme> = {
+      'usa': {
+        country_code: 'usa',
         country_name: 'United States',
         hero_title: 'Protecting America\'s Environment with AI',
         hero_subtitle: 'Advanced climate solutions for sustainable agriculture and conservation across the United States',
@@ -178,8 +188,8 @@ class StoryblokService {
         secondary_cta_text: 'View Conservation Programs',
         secondary_cta_url: '/resources'
       },
-      'INDIA': {
-        country_code: 'INDIA',
+      'india': {
+        country_code: 'india',
         country_name: 'India',
         hero_title: 'भारत के लिए AI-संचालित पर्यावरण समाधान',
         hero_subtitle: 'Sustainable farming and climate resilience solutions tailored for Indian agriculture and environmental challenges',
@@ -191,8 +201,8 @@ class StoryblokService {
         secondary_cta_url: '/resources'
       }
     }
-
-    return themes[country as keyof typeof themes] || themes['USA']
+    
+    return themes[country] || themes['usa']
   }
 }
 

@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import DynamicResourceSection from "@/components/DynamicResourceSection"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -498,36 +499,41 @@ export function SolarPanelOptimizer() {
         </div>
       )}
 
-      {/* Global Solar Resources */}
-      <Card className="bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800">
-        <CardHeader>
-          <CardTitle className="text-yellow-700 dark:text-yellow-300">
-            Global Solar Resources & Incentives
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <h4 className="font-semibold mb-2">Government Incentives</h4>
-              <ul className="space-y-1">
-                <li>• Small-scale Renewable Energy Scheme (SRES)</li>
-                <li>• State-based solar rebates and feed-in tariffs</li>
-                <li>• Remote Area Power Supply (RAPS) programs</li>
-                <li>• Clean Energy Finance Corporation loans</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">Technical Support</h4>
-              <ul className="space-y-1">
-                <li>• Clean Energy Council accredited installers</li>
-                <li>• Solar Council resources</li>
-                <li>• ARENA research and development funding</li>
-                <li>• Local energy efficiency programs</li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Dynamic Resource Section */}
+      <DynamicResourceSection 
+        featureName="solar-optimizer"
+        fallbackContent={
+          <Card className="bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800">
+            <CardHeader>
+              <CardTitle className="text-yellow-700 dark:text-yellow-300">
+                Global Solar Resources & Incentives
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <h4 className="font-semibold mb-2">Government Incentives</h4>
+                  <ul className="space-y-1">
+                    <li>• Small-scale Renewable Energy Scheme (SRES)</li>
+                    <li>• State-based solar rebates and feed-in tariffs</li>
+                    <li>• Remote Area Power Supply (RAPS) programs</li>
+                    <li>• Clean Energy Finance Corporation loans</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">Technical Support</h4>
+                  <ul className="space-y-1">
+                    <li>• Clean Energy Council accredited installers</li>
+                    <li>• Solar Council resources</li>
+                    <li>• ARENA research and development funding</li>
+                    <li>• Local energy efficiency programs</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        }
+      />
     </div>
   )
 }

@@ -16,8 +16,8 @@ export function useCountryTheme() {
         setLoading(true)
         setError(null)
         
-        // Get country from location selector, fallback to USA
-        const country = location?.code || 'USA'
+        // Get country from location selector, fallback to usa
+        const country = location?.code || 'usa'
         
         // Fetch country theme from Storyblok
         const data = await storyblokService.getCountryTheme(country)
@@ -34,7 +34,7 @@ export function useCountryTheme() {
         setError(err instanceof Error ? err.message : 'Failed to fetch theme')
         
         // Use fallback theme on error
-        const country = location?.code || 'USA'
+        const country = location?.code || 'usa'
         const fallbackData = storyblokService.getFallbackCountryTheme(country)
         setThemeData(fallbackData)
       } finally {
@@ -45,5 +45,5 @@ export function useCountryTheme() {
     fetchCountryTheme()
   }, [location])
 
-  return { themeData, loading, error, country: location?.code || 'USA' }
+  return { themeData, loading, error, country: location?.code || 'usa' }
 }

@@ -18,8 +18,8 @@ interface Country {
 }
 
 const SUPPORTED_COUNTRIES: Country[] = [
-  { code: 'USA', name: 'United States', flag: '🇺🇸' },
-  { code: 'INDIA', name: 'India', flag: '🇮🇳' },
+  { code: 'usa', name: 'United States', flag: '🇺🇸' },
+  { code: 'india', name: 'India', flag: '🇮🇳' },
 ]
 
 interface LocationSelectorProps {
@@ -123,7 +123,7 @@ export function LocationSelector({
             <div className="flex flex-col">
               <span className="font-medium">{country.name}</span>
               <span className="text-xs text-muted-foreground">
-                {country.code === 'USA' ? 'Federal programs & resources' : 'Government schemes & support'}
+                {country.code === 'usa' ? 'Federal programs & resources' : 'Government schemes & support'}
               </span>
             </div>
             {selectedCountry?.code === country.code && (

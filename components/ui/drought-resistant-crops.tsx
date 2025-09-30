@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import DynamicResourceSection from "@/components/DynamicResourceSection"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -453,36 +454,41 @@ export function DroughtResistantCrops() {
         </div>
       )}
 
-      {/* Global Drought Resources */}
-      <Card className="bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800">
-        <CardHeader>
-          <CardTitle className="text-amber-700 dark:text-amber-300">
-            Global Drought Resources
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <h4 className="font-semibold mb-2">Government Support</h4>
-              <ul className="space-y-1">
-                <li>• Farm Household Allowance</li>
-                <li>• Drought Communities Programme</li>
-                <li>• Future Drought Fund initiatives</li>
-                <li>• State-specific drought assistance</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">Research & Extension</h4>
-              <ul className="space-y-1">
-                <li>• GRDC variety guides</li>
-                <li>• State agriculture departments</li>
-                <li>• CSIRO drought research</li>
-                <li>• Local agronomist networks</li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Dynamic Resource Section */}
+      <DynamicResourceSection 
+        featureName="drought-crops"
+        fallbackContent={
+          <Card className="bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800">
+            <CardHeader>
+              <CardTitle className="text-amber-700 dark:text-amber-300">
+                Global Drought Resources
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <h4 className="font-semibold mb-2">Government Support</h4>
+                  <ul className="space-y-1">
+                    <li>• Farm Household Allowance</li>
+                    <li>• Drought Communities Programme</li>
+                    <li>• Future Drought Fund initiatives</li>
+                    <li>• State-specific drought assistance</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">Research & Extension</h4>
+                  <ul className="space-y-1">
+                    <li>• GRDC variety guides</li>
+                    <li>• State agriculture departments</li>
+                    <li>• CSIRO drought research</li>
+                    <li>• Local agronomist networks</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        }
+      />
     </div>
   )
 }

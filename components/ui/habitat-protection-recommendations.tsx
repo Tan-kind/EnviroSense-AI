@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import DynamicResourceSection from "@/components/DynamicResourceSection"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -492,38 +493,43 @@ export function HabitatProtectionRecommendations() {
         </div>
       )}
 
-      {/* Conservation Resources */}
-      <Card className="bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800">
-        <CardHeader>
-          <CardTitle className="text-green-700 dark:text-green-300">
-            Global Habitat Conservation Resources
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <h4 className="font-semibold mb-2">Government Programs</h4>
-              <ul className="space-y-1">
-                <li>• Environment Restoration Fund</li>
-                <li>• Biodiversity Conservation Trust</li>
-                <li>• National Landcare Program</li>
-                <li>• Threatened Species Action Plans</li>
-                <li>• Regional Land Partnerships</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">Conservation Organizations</h4>
-              <ul className="space-y-1">
-                <li>• Wildlife Conservancy</li>
-                <li>• Bush Heritage</li>
-                <li>• Greening Organizations</li>
-                <li>• Local Landcare networks</li>
-                <li>• Native vegetation trusts</li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Dynamic Resource Section */}
+      <DynamicResourceSection 
+        featureName="habitat-protection"
+        fallbackContent={
+          <Card className="bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800">
+            <CardHeader>
+              <CardTitle className="text-green-700 dark:text-green-300">
+                Global Habitat Conservation Resources
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <h4 className="font-semibold mb-2">Government Programs</h4>
+                  <ul className="space-y-1">
+                    <li>• Environment Restoration Fund</li>
+                    <li>• Biodiversity Conservation Trust</li>
+                    <li>• National Landcare Program</li>
+                    <li>• Threatened Species Action Plans</li>
+                    <li>• Regional Land Partnerships</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">Conservation Organizations</h4>
+                  <ul className="space-y-1">
+                    <li>• Wildlife Conservancy</li>
+                    <li>• Bush Heritage</li>
+                    <li>• Greening Organizations</li>
+                    <li>• Local Landcare networks</li>
+                    <li>• Native vegetation trusts</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        }
+      />
     </div>
   )
 }

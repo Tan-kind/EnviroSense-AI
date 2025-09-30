@@ -80,14 +80,14 @@ export default function ResourceSection({ blok }: ResourceSectionProps) {
 
 function getResourceTitle(featureName: string): string {
   const titles: Record<string, string> = {
-    drought_crops: 'Drought-Resistant Crops',
-    water_conservation: 'Water Conservation Strategy',
-    solar_optimizer: 'Solar Panel Optimizer',
-    habitat_protection: 'Habitat Protection',
-    farm_equipment: 'Farm Equipment Efficiency Guide',
-    impact_scanner: 'Environmental Impact Scanner',
-    climate_advisor: 'Climate Advisor',
-    goal_tracking: 'Goal Tracking'
+    'drought-crops': 'Drought-Resistant Crops',
+    'water-conservation': 'Water Conservation Strategy',
+    'solar-optimizer': 'Solar Panel Optimizer',
+    'habitat-protection': 'Habitat Protection',
+    'farm-equipment': 'Farm Equipment Efficiency Guide',
+    'impact-scanner': 'Environmental Impact Scanner',
+    'climate-advisor': 'Climate Advisor',
+    'goal-tracking': 'Goal Tracking'
   }
   return titles[featureName] || 'Climate Resources'
 }

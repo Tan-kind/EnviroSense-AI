@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import DynamicResourceSection from "@/components/DynamicResourceSection"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -462,36 +463,41 @@ export function WaterConservationStrategy() {
         </div>
       )}
 
-      {/* Water Efficiency Tips */}
-      <Card className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
-        <CardHeader>
-          <CardTitle className="text-blue-700 dark:text-blue-300">
-            Global Water Efficiency Resources
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <h4 className="font-semibold mb-2">Government Programs</h4>
-              <ul className="space-y-1">
-                <li>• On-farm Irrigation Efficiency Program</li>
-                <li>• Murray-Darling Basin water efficiency grants</li>
-                <li>• State water infrastructure rebates</li>
-                <li>• Drought resilience funding</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">Technical Support</h4>
-              <ul className="space-y-1">
-                <li>• Irrigation organizations</li>
-                <li>• Cotton Research & Development Corporation</li>
-                <li>• Grains Research & Development Corporation</li>
-                <li>• Local catchment management authorities</li>
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Dynamic Resource Section */}
+      <DynamicResourceSection 
+        featureName="water-conservation"
+        fallbackContent={
+          <Card className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
+            <CardHeader>
+              <CardTitle className="text-blue-700 dark:text-blue-300">
+                Global Water Efficiency Resources
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <h4 className="font-semibold mb-2">Government Programs</h4>
+                  <ul className="space-y-1">
+                    <li>• On-farm Irrigation Efficiency Program</li>
+                    <li>• Murray-Darling Basin water efficiency grants</li>
+                    <li>• State water infrastructure rebates</li>
+                    <li>• Drought resilience funding</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">Technical Support</h4>
+                  <ul className="space-y-1">
+                    <li>• Irrigation organizations</li>
+                    <li>• Cotton Research & Development Corporation</li>
+                    <li>• Grains Research & Development Corporation</li>
+                    <li>• Local catchment management authorities</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        }
+      />
     </div>
   )
 }

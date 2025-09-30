@@ -16,8 +16,8 @@ export function useResourceSection(featureName: string) {
         setLoading(true)
         setError(null)
         
-        // Get country from location selector, fallback to USA
-        const country = location?.code || 'USA'
+        // Get country from location selector, fallback to usa
+        const country = location?.code || 'usa'
         
         // Fetch resource section from Storyblok
         const data = await storyblokService.getResourceSection(country, featureName)
@@ -34,7 +34,7 @@ export function useResourceSection(featureName: string) {
         setError(err instanceof Error ? err.message : 'Failed to fetch resources')
         
         // Use fallback data on error
-        const country = location?.code || 'USA'
+        const country = location?.code || 'usa'
         const fallbackData = storyblokService.getFallbackResourceSection(country, featureName)
         setResourceData(fallbackData)
       } finally {
