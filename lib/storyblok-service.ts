@@ -1,4 +1,4 @@
-import { getStoryblokApi } from '@storyblok/react/rsc'
+import { getStoryblokApi } from './storyblok'
 
 export interface ResourceItem {
   item_name: string
@@ -41,7 +41,9 @@ const FEATURE_MAPPING = {
 }
 
 class StoryblokService {
-  private api = getStoryblokApi()
+  private getApi() {
+    return getStoryblokApi()
+  }
 
   async getResourceSection(country: string, feature: string): Promise<ResourceSection | null> {
     try {
@@ -53,7 +55,7 @@ class StoryblokService {
         return null
       }
 
-      const { data } = await this.api.get(`cdn/stories/resources/${countryCode}/${featureSlug}`, {
+      const { data } = await this.getApi().get(`cdn/stories/${countryCode}/${featureSlug}`, {
         version: 'published',
         resolve_links: 'url'
       })
@@ -69,7 +71,7 @@ class StoryblokService {
     try {
       const countryCode = country.toLowerCase()
       
-      const { data } = await this.api.get(`cdn/stories/themes/${countryCode}`, {
+      const { data } = await this.getApi().get(`cdn/stories/themes/${countryCode}`, {
         version: 'published'
       })
 
