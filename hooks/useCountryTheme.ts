@@ -25,7 +25,7 @@ export function useCountryTheme() {
           const data = await storyblokService.getCountryTheme(country)
           
           if (data) {
-            console.log('Using Storyblok theme data:', data)
+            // console.log('Using Storyblok theme data:', data)
             setThemeData(data)
           } else {
             console.log('Storyblok theme not found, using fallback')

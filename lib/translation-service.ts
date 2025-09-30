@@ -115,6 +115,25 @@ Provide only the translation, no additional text.
     }
   }
 
+  async translatePage(textMap: Record<string, string>, targetLanguage: string): Promise<Record<string, string>> {
+    try {
+      const translations: Record<string, string> = {}
+      
+      for (const [key, text] of Object.entries(textMap)) {
+        translations[key] = await this.translateText({
+          text,
+          targetLanguage,
+          context: 'UI text for community hub page'
+        })
+      }
+      
+      return translations
+    } catch (error) {
+      console.error('Page translation failed:', error)
+      return textMap // Return original if translation fails
+    }
+  }
+
   getLanguageOptions() {
     return [
       { code: 'hi', name: 'Hindi (हिंदी)', flag: '🇮🇳' },

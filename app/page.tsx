@@ -230,6 +230,11 @@ export default function EnviroSenseHome() {
               </div>
             </div>
             <div className="flex items-center space-x-3">
+              <Link href="/community">
+                <Button variant="outline" size="sm" className="rounded-xl border-2">
+                  Community Hub
+                </Button>
+              </Link>
               <LocationSelector size="sm" />
               {user ? (
                 <div className="flex items-center space-x-3">
@@ -262,8 +267,9 @@ export default function EnviroSenseHome() {
         </div>
       </header>
 
+
       {/* Primary Features */}
-      <section className="pt-32 pb-20 bg-white/50 dark:bg-gray-900/50">
+      <section className="pb-20 bg-white/50 dark:bg-gray-900/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
