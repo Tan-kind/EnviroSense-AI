@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Globe, MapPin, ChevronDown } from 'lucide-react'
+import { Globe, MapPin, ChevronDown, Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface Country {
@@ -17,9 +18,59 @@ interface Country {
   flag: string
 }
 
-const SUPPORTED_COUNTRIES: Country[] = [
+const ALL_COUNTRIES: Country[] = [
   { code: 'usa', name: 'United States', flag: '🇺🇸' },
   { code: 'india', name: 'India', flag: '🇮🇳' },
+  { code: 'afghanistan', name: 'Afghanistan', flag: '🇦🇫' },
+  { code: 'albania', name: 'Albania', flag: '🇦🇱' },
+  { code: 'algeria', name: 'Algeria', flag: '🇩🇿' },
+  { code: 'argentina', name: 'Argentina', flag: '🇦🇷' },
+  { code: 'australia', name: 'Australia', flag: '🇦🇺' },
+  { code: 'austria', name: 'Austria', flag: '🇦🇹' },
+  { code: 'bangladesh', name: 'Bangladesh', flag: '🇧🇩' },
+  { code: 'belgium', name: 'Belgium', flag: '🇧🇪' },
+  { code: 'brazil', name: 'Brazil', flag: '🇧🇷' },
+  { code: 'canada', name: 'Canada', flag: '🇨🇦' },
+  { code: 'china', name: 'China', flag: '🇨🇳' },
+  { code: 'colombia', name: 'Colombia', flag: '🇨🇴' },
+  { code: 'denmark', name: 'Denmark', flag: '🇩🇰' },
+  { code: 'egypt', name: 'Egypt', flag: '🇪🇬' },
+  { code: 'finland', name: 'Finland', flag: '🇫🇮' },
+  { code: 'france', name: 'France', flag: '🇫🇷' },
+  { code: 'germany', name: 'Germany', flag: '🇩🇪' },
+  { code: 'ghana', name: 'Ghana', flag: '🇬🇭' },
+  { code: 'greece', name: 'Greece', flag: '🇬🇷' },
+  { code: 'indonesia', name: 'Indonesia', flag: '🇮🇩' },
+  { code: 'iran', name: 'Iran', flag: '🇮🇷' },
+  { code: 'iraq', name: 'Iraq', flag: '🇮🇶' },
+  { code: 'ireland', name: 'Ireland', flag: '🇮🇪' },
+  { code: 'israel', name: 'Israel', flag: '🇮🇱' },
+  { code: 'italy', name: 'Italy', flag: '🇮🇹' },
+  { code: 'japan', name: 'Japan', flag: '🇯🇵' },
+  { code: 'kenya', name: 'Kenya', flag: '🇰🇪' },
+  { code: 'malaysia', name: 'Malaysia', flag: '🇲🇾' },
+  { code: 'mexico', name: 'Mexico', flag: '🇲🇽' },
+  { code: 'morocco', name: 'Morocco', flag: '🇲🇦' },
+  { code: 'netherlands', name: 'Netherlands', flag: '🇳🇱' },
+  { code: 'nigeria', name: 'Nigeria', flag: '🇳🇬' },
+  { code: 'norway', name: 'Norway', flag: '🇳🇴' },
+  { code: 'pakistan', name: 'Pakistan', flag: '🇵🇰' },
+  { code: 'philippines', name: 'Philippines', flag: '🇵🇭' },
+  { code: 'poland', name: 'Poland', flag: '🇵🇱' },
+  { code: 'portugal', name: 'Portugal', flag: '🇵🇹' },
+  { code: 'russia', name: 'Russia', flag: '🇷🇺' },
+  { code: 'saudi_arabia', name: 'Saudi Arabia', flag: '🇸🇦' },
+  { code: 'south_africa', name: 'South Africa', flag: '🇿🇦' },
+  { code: 'south_korea', name: 'South Korea', flag: '🇰🇷' },
+  { code: 'spain', name: 'Spain', flag: '🇪🇸' },
+  { code: 'sri_lanka', name: 'Sri Lanka', flag: '🇱🇰' },
+  { code: 'sweden', name: 'Sweden', flag: '🇸🇪' },
+  { code: 'switzerland', name: 'Switzerland', flag: '🇨🇭' },
+  { code: 'thailand', name: 'Thailand', flag: '🇹🇭' },
+  { code: 'turkey', name: 'Turkey', flag: '🇹🇷' },
+  { code: 'ukraine', name: 'Ukraine', flag: '🇺🇦' },
+  { code: 'united_kingdom', name: 'United Kingdom', flag: '🇬🇧' },
+  { code: 'vietnam', name: 'Vietnam', flag: '🇻🇳' },
 ]
 
 interface LocationSelectorProps {
@@ -37,35 +88,42 @@ export function LocationSelector({
 }: LocationSelectorProps) {
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null)
   const [isOpen, setIsOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  // Load saved location from localStorage on component mount
   useEffect(() => {
-    const savedLocation = localStorage.getItem('envirosense-location')
+    const savedLocation = localStorage.getItem('selectedLocation')
     if (savedLocation) {
-      try {
-        const country = JSON.parse(savedLocation) as Country
+      const country = ALL_COUNTRIES.find(c => c.code === savedLocation)
+      if (country) {
         setSelectedCountry(country)
-      } catch (error) {
-        console.error('Failed to parse saved location:', error)
       }
     }
   }, [])
 
-  const handleCountrySelect = (country: Country) => {
+  const filteredCountries = ALL_COUNTRIES.filter(country =>
+    country.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  const handleLocationSelect = async (country: Country) => {
+    setIsLoading(true)
     setSelectedCountry(country)
     setIsOpen(false)
+    setSearchTerm('')
     
-    // Save to localStorage
-    localStorage.setItem('envirosense-location', JSON.stringify(country))
+    localStorage.setItem('selectedLocation', country.code)
     
-    // Notify parent component
-    onLocationChange?.(country)
+    await new Promise(resolve => setTimeout(resolve, 800))
     
-    // Dispatch custom event for other components to listen
     window.dispatchEvent(new CustomEvent('locationChanged', { 
-      detail: country 
+      detail: { country: country.code } 
     }))
+    
+    onLocationChange?.(country)
+    setIsLoading(false)
   }
+
+  const displayText = selectedCountry ? selectedCountry.name : 'Select Location'
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -73,64 +131,67 @@ export function LocationSelector({
         <Button
           variant={variant}
           size={size}
+          disabled={isLoading}
           className={cn(
-            "flex items-center gap-2 min-w-[140px] justify-between",
-            "hover:bg-accent hover:text-accent-foreground",
-            "border-2 border-primary/20 hover:border-primary/40",
-            "transition-all duration-200",
+            "flex items-center gap-2 min-w-[140px]",
             className
           )}
         >
-          <div className="flex items-center gap-2">
-            {selectedCountry ? (
-              <>
-                <span className="text-lg">{selectedCountry.flag}</span>
-                <span className="font-medium">{selectedCountry.name}</span>
-              </>
-            ) : (
-              <>
-                <Globe className="h-4 w-4" />
-                <span>Select Location</span>
-              </>
-            )}
-          </div>
-          <ChevronDown className="h-4 w-4 opacity-50" />
+          {isLoading ? (
+            <>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
+              <span>Updating...</span>
+            </>
+          ) : selectedCountry ? (
+            <>
+              <span className="text-base">{selectedCountry.flag}</span>
+              <span className="font-medium">{displayText}</span>
+            </>
+          ) : (
+            <>
+              <Globe className="h-4 w-4" />
+              <span>Select Location</span>
+            </>
+          )}
+          <ChevronDown className="h-4 w-4 ml-auto" />
         </Button>
       </DropdownMenuTrigger>
-      
-      <DropdownMenuContent 
-        align="end" 
-        className="w-56 p-2"
-        sideOffset={4}
-      >
-        <div className="px-2 py-1.5 text-sm font-semibold text-muted-foreground">
-          Choose your region
+      <DropdownMenuContent align="end" className="w-72">
+        <div className="p-2">
+          <div className="relative">
+            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search countries..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-8"
+            />
+          </div>
         </div>
-        
-        {SUPPORTED_COUNTRIES.map((country) => (
-          <DropdownMenuItem
-            key={country.code}
-            onClick={() => handleCountrySelect(country)}
-            className={cn(
-              "flex items-center gap-3 px-3 py-2.5 cursor-pointer",
-              "hover:bg-accent hover:text-accent-foreground",
-              "focus:bg-accent focus:text-accent-foreground",
-              "transition-colors duration-150",
-              selectedCountry?.code === country.code && "bg-accent/50"
-            )}
-          >
-            <span className="text-xl">{country.flag}</span>
-            <div className="flex flex-col">
-              <span className="font-medium">{country.name}</span>
-              <span className="text-xs text-muted-foreground">
-                {country.code === 'usa' ? 'Federal programs & resources' : 'Government schemes & support'}
-              </span>
+        <div className="max-h-60 overflow-y-auto">
+          {filteredCountries.map((country) => (
+            <DropdownMenuItem
+              key={country.code}
+              onClick={() => handleLocationSelect(country)}
+              className="flex items-center gap-3 cursor-pointer"
+            >
+              <span className="text-base">{country.flag}</span>
+              <div className="flex flex-col">
+                <span className="font-medium">{country.name}</span>
+                {(country.code === 'usa' || country.code === 'india') && (
+                  <span className="text-xs text-muted-foreground">
+                    Dynamic content available
+                  </span>
+                )}
+              </div>
+            </DropdownMenuItem>
+          ))}
+          {filteredCountries.length === 0 && (
+            <div className="p-4 text-center text-muted-foreground">
+              No countries found
             </div>
-            {selectedCountry?.code === country.code && (
-              <MapPin className="h-4 w-4 ml-auto text-primary" />
-            )}
-          </DropdownMenuItem>
-        ))}
+          )}
+        </div>
         
         <div className="mt-2 pt-2 border-t">
           <div className="px-3 py-2 text-xs text-muted-foreground">
