@@ -333,7 +333,7 @@ export default function EnviroSenseHome() {
               tools.
             </p>
             <div className="flex justify-center gap-6 text-sm text-gray-400">
-              <span>© 2024 EnviroSense AI</span>
+              <span>© EnviroSense AI</span>
               <span>•</span>
               <span>Accessible Climate Intelligence Platform</span>
             </div>

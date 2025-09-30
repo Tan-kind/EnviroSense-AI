@@ -1,12 +1,18 @@
-import { apiPlugin, storyblokInit } from '@storyblok/react/rsc';
+import StoryblokClient from 'storyblok-js-client';
 
-export const getStoryblokApi = storyblokInit({
-  accessToken: process.env.NEXT_PUBLIC_STORYBLOK_CONTENT_API_ACCESS_TOKEN,
-  use: [apiPlugin],
-  apiOptions: {
-    region: 'us', // Change to 'eu' if your Storyblok space is in Europe
-  },
-});
+let storyblokApi: StoryblokClient | null = null;
+
+export const getStoryblokApi = () => {
+  if (!storyblokApi) {
+    storyblokApi = new StoryblokClient({
+      accessToken: process.env.NEXT_PUBLIC_STORYBLOK_CONTENT_API_ACCESS_TOKEN,
+      region: 'eu', // Changed to EU region based on API test results
+    });
+  }
+  
+  console.log('Storyblok API token:', process.env.NEXT_PUBLIC_STORYBLOK_CONTENT_API_ACCESS_TOKEN ? 'Present' : 'Missing');
+  return storyblokApi;
+};
 
 // Storyblok API configuration for management operations
 export const storyblokConfig = {
@@ -21,7 +27,7 @@ export async function fetchStoryblokStory(slug: string, options: any = {}) {
   try {
     const storyblokApi = getStoryblokApi();
     const { data } = await storyblokApi.get(`cdn/stories/${slug}`, {
-      version: 'draft',
+      version: 'published',
       ...options,
     });
     return data;
@@ -36,7 +42,7 @@ export async function fetchStoryblokStories(options: any = {}) {
   try {
     const storyblokApi = getStoryblokApi();
     const { data } = await storyblokApi.get('cdn/stories', {
-      version: 'draft',
+      version: 'published',
       ...options,
     });
     return data;

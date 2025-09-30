@@ -21,15 +21,25 @@ export default function DynamicResourceSection({
   const [selectedCountry, setSelectedCountry] = useState<string>('global')
 
   useEffect(() => {
-    // Load saved location from localStorage
-    const savedLocation = localStorage.getItem('selectedLocation')
+    // Load saved location from localStorage (using same key as location selector)
+    const savedLocation = localStorage.getItem('envirosense-location')
+    console.log('Initial location from localStorage:', savedLocation)
     if (savedLocation) {
-      setSelectedCountry(savedLocation)
+      try {
+        const locationData = JSON.parse(savedLocation)
+        setSelectedCountry(locationData.code)
+      } catch (error) {
+        console.error('Failed to parse saved location:', error)
+        setLoading(false)
+      }
+    } else {
+      setLoading(false) // No location selected, show fallback immediately
     }
 
     // Listen for location changes
     const handleLocationChange = (event: CustomEvent) => {
-      setSelectedCountry(event.detail.country)
+      console.log('Location changed event received:', event.detail)
+      setSelectedCountry(event.detail.code)
     }
 
     window.addEventListener('locationChanged', handleLocationChange as EventListener)
@@ -42,19 +52,22 @@ export default function DynamicResourceSection({
     const fetchResourceData = async () => {
       // Only fetch from Storyblok for USA and India
       if (selectedCountry !== 'usa' && selectedCountry !== 'india') {
+        console.log(`Country ${selectedCountry} not supported for CMS, using fallback content`)
         setResourceData(null)
         setLoading(false)
         return
       }
 
+      console.log(`Fetching Storyblok data for ${selectedCountry}/${featureName}`)
       setLoading(true)
       setError(null)
 
       try {
         const data = await storyblokService.getResourceSection(selectedCountry, featureName)
+        console.log('Storyblok data received:', data)
         setResourceData(data)
       } catch (err) {
-        console.warn(`Failed to fetch resource section for ${featureName}:`, err)
+        console.error(`Failed to fetch resource section for ${featureName}:`, err)
         setError(err instanceof Error ? err.message : 'Failed to fetch resource data')
         setResourceData(null)
       } finally {

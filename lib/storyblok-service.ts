@@ -48,31 +48,32 @@ class StoryblokService {
   async getResourceSection(country: string, feature: string): Promise<ResourceSection | null> {
     try {
       const countryCode = country.toLowerCase()
-      const featureSlug = feature.toLowerCase().replace(/[^a-z0-9]/g, '-')
+      // Convert feature name to match Storyblok slug format
+      const featureSlug = feature.toLowerCase().replace(/[-_]/g, '-')
       
-      // Try country-specific first, then fallback to global
-      const slugs = [
-        `resources/${countryCode}/${featureSlug}`,
-        `resources/global/${featureSlug}`
-      ]
+      console.log(`Attempting to fetch: resources/${countryCode}/${featureSlug}`)
+      
+      const api = this.getApi()
+      console.log('API instance created:', !!api)
+      
+      const { data } = await api.get(`cdn/stories/resources/${countryCode}/${featureSlug}`, {
+        version: 'published'
+      })
 
-      for (const slug of slugs) {
-        try {
-          const { data } = await this.getApi().get(`cdn/stories/${slug}`, {
-            version: 'published',
-            resolve_links: 'url'
-          })
-
-          return this.transformResourceSection(data.story.content)
-        } catch (slugError) {
-          console.warn(`Story not found: ${slug}`)
-          continue
-        }
+      console.log('Raw Storyblok response:', JSON.stringify(data, null, 2))
+      
+      if (data && data.story && data.story.content) {
+        const transformed = this.transformResourceSection(data.story.content)
+        console.log('Transformed data:', JSON.stringify(transformed, null, 2))
+        return transformed
       }
-
+      
       return null
     } catch (error) {
       console.error(`Failed to fetch resource section for ${country}/${feature}:`, error)
+      if (error instanceof Error) {
+        console.error('Error details:', error.message)
+      }
       return null
     }
   }
@@ -81,13 +82,26 @@ class StoryblokService {
     try {
       const countryCode = country.toLowerCase()
       
+      console.log(`Attempting to fetch theme: themes/${countryCode}`)
+      
       const { data } = await this.getApi().get(`cdn/stories/themes/${countryCode}`, {
         version: 'published'
       })
 
-      return this.transformCountryTheme(data.story.content)
+      console.log('Raw theme response:', JSON.stringify(data, null, 2))
+      
+      if (data && data.story && data.story.content) {
+        const transformed = this.transformCountryTheme(data.story.content)
+        console.log('Transformed theme data:', JSON.stringify(transformed, null, 2))
+        return transformed
+      }
+      
+      return null
     } catch (error) {
       console.error(`Failed to fetch theme for ${country}:`, error)
+      if (error instanceof Error) {
+        console.error('Theme error details:', error.message)
+      }
       return null
     }
   }
@@ -135,12 +149,12 @@ class StoryblokService {
 
   private transformCountryTheme(content: any): CountryTheme {
     return {
-      country_code: content.country_code,
+      country_code: content.country || content.country_code,
       country_name: content.country_name,
       hero_title: content.hero_title,
       hero_subtitle: content.hero_subtitle,
       welcome_message: content.welcome_message,
-      background_image_url: content.background_image_url,
+      background_image_url: content.hero_image?.filename || content.background_image_url,
       primary_cta_text: content.primary_cta_text,
       primary_cta_url: content.primary_cta_url,
       secondary_cta_text: content.secondary_cta_text,

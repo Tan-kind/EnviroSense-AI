@@ -18,14 +18,23 @@ export function useCountryTheme() {
         
         // Get country from location selector, fallback to usa
         const country = location?.code || 'usa'
+        console.log('Fetching theme for country:', country)
         
-        // Fetch country theme from Storyblok
-        const data = await storyblokService.getCountryTheme(country)
-        
-        if (data) {
-          setThemeData(data)
+        // Only fetch from Storyblok for USA and India
+        if (country === 'usa' || country === 'india') {
+          const data = await storyblokService.getCountryTheme(country)
+          
+          if (data) {
+            console.log('Using Storyblok theme data:', data)
+            setThemeData(data)
+          } else {
+            console.log('Storyblok theme not found, using fallback')
+            const fallbackData = storyblokService.getFallbackCountryTheme(country)
+            setThemeData(fallbackData)
+          }
         } else {
-          // Use fallback theme if Storyblok fails
+          // Use fallback theme for other countries
+          console.log('Using fallback theme for country:', country)
           const fallbackData = storyblokService.getFallbackCountryTheme(country)
           setThemeData(fallbackData)
         }

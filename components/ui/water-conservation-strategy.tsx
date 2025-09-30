@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { Droplets, Calculator, TrendingDown, Zap, DollarSign, Leaf } from 'lucide-react'
+import { Droplets, Calculator, TrendingUp, Lightbulb, ChevronDown, ChevronUp } from 'lucide-react'
 
 interface WaterStrategy {
   strategy: string
@@ -462,6 +462,7 @@ export function WaterConservationStrategy() {
           </div>
         </div>
       )}
+
 
       {/* Dynamic Resource Section */}
       <DynamicResourceSection 
