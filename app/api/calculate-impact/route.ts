@@ -11,16 +11,22 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { goal_title, goal_description, duration_days } = body
+    const { goal_title, goal_description, duration_days, user_country } = body
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
 
+    // Get country-specific context
+    const countryContext = getCountryContext(user_country || 'USA')
+
     const prompt = `
-You are an environmental impact calculator specializing in rural and regional areas. Calculate the realistic environmental impact of this goal for rural communities:
+You are an environmental impact calculator specializing in rural and regional areas. Calculate the realistic environmental impact of this goal for rural communities in ${countryContext.name}:
 
 Goal: "${goal_title}"
 Description: "${goal_description || 'No additional description'}"
 Duration: ${duration_days} days
+
+COUNTRY-SPECIFIC CONTEXT FOR ${countryContext.name.toUpperCase()}:
+${countryContext.environmental_factors}
 
 RURAL CONTEXT:
 - Consider remote locations, extreme weather, and limited infrastructure
@@ -83,6 +89,37 @@ Make numbers realistic for rural conditions. Return ONLY the JSON object.
     const fallbackImpact = calculateFallbackImpact(goal_title || 'Environmental goal', duration_days || 7)
     return NextResponse.json(fallbackImpact)
   }
+}
+
+function getCountryContext(countryCode: string) {
+  const contexts: Record<string, { name: string; environmental_factors: string }> = {
+    'USA': {
+      name: 'United States',
+      environmental_factors: `
+- Diverse climate zones from arid Southwest to humid Southeast
+- Significant wildfire risks in Western states (California, Oregon, Washington)
+- Hurricane and tornado threats in Southern and Midwest regions
+- Large agricultural areas with varying water availability
+- Extensive rural areas with long transport distances
+- High solar potential in Southwest, wind potential in Great Plains
+- Focus on reducing carbon footprint from transportation and energy use
+- Water conservation critical in Western drought-prone regions`
+    },
+    'IND': {
+      name: 'India',
+      environmental_factors: `
+- Monsoon-dependent agriculture with seasonal water variations
+- Extreme heat waves and drought conditions in many regions
+- Cyclone risks along coastal areas
+- Dense rural population with traditional farming practices
+- Limited rural infrastructure and grid connectivity
+- High solar potential year-round, especially in Rajasthan and Gujarat
+- Water scarcity issues in many states, groundwater depletion
+- Focus on sustainable agriculture, water harvesting, and renewable energy adoption`
+    }
+  }
+  
+  return contexts[countryCode] || contexts['USA']
 }
 
 function calculateFallbackImpact(goalTitle: string, days: number) {

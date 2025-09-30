@@ -33,11 +33,14 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { FloatingButtons } from "@/components/ui/floating-buttons";
+import { LocationSelector } from "@/components/ui/location-selector";
+import { useCountryTheme } from "@/hooks/useCountryTheme";
 
 export default function EnviroSenseHome() {
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
   const [showAuthForm, setShowAuthForm] = useState(false);
   const { user, loading, signOut } = useAuth();
+  const { themeData, loading: themeLoading } = useCountryTheme();
 
   const primaryFeatures = [
     {
@@ -165,6 +168,50 @@ export default function EnviroSenseHome() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+      {/* Hero Section */}
+      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+        {/* Background with gradient overlay */}
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-teal-900/20"
+          style={{
+            backgroundImage: themeData?.background_image_url ? `url(${themeData.background_image_url})` : undefined,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          {themeData?.background_image_url && (
+            <div className="absolute inset-0 bg-black/40 dark:bg-black/60" />
+          )}
+        </div>
+
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-emerald-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
+          <div className="absolute top-40 left-40 w-80 h-80 bg-cyan-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white">
+                <span className="block">
+                  {themeData?.hero_title || "Climate Action"}
+                </span>
+                <span className="block bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                  Made Simple
+                </span>
+              </h1>
+              <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                {themeData?.hero_subtitle ||
+                  "Empowering rural communities with AI-driven environmental solutions. From drought-resistant crops to renewable energy optimization."}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Floating Header */}
       <header className="fixed top-4 left-4 right-4 z-50 bg-white/70 backdrop-blur-xl rounded-2xl border border-white/20 shadow-lg dark:bg-gray-900/70 dark:border-gray-700/20">
         <div className="px-6 py-4">
@@ -183,6 +230,7 @@ export default function EnviroSenseHome() {
               </div>
             </div>
             <div className="flex items-center space-x-3">
+              <LocationSelector size="sm" />
               {user ? (
                 <div className="flex items-center space-x-3">
                   <div className="px-3 py-1 bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900 rounded-full">

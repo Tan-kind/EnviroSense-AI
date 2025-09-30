@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!)
 
 export async function POST(request: NextRequest) {
   try {
-    const { region, soilType, rainfall, farmSize, currentCrops } = await request.json()
+    const { region, soilType, rainfall, farmSize, currentCrops, user_country } = await request.json()
 
     if (!region || !soilType) {
       return NextResponse.json({ error: 'Region and soil type are required' }, { status: 400 })
@@ -13,7 +13,13 @@ export async function POST(request: NextRequest) {
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
 
-    const prompt = `You are an agricultural expert specializing in drought-resistant crops for farming. Provide crop recommendations based on the following conditions:
+    // Get country-specific context
+    const countryContext = getCountryContext(user_country || 'USA')
+
+    const prompt = `You are an agricultural expert specializing in drought-resistant crops for farming in ${countryContext.name}. Provide crop recommendations based on the following conditions:
+
+COUNTRY CONTEXT FOR ${countryContext.name.toUpperCase()}:
+${countryContext.agricultural_factors}
 
 FARM CONDITIONS:
 - Region: ${region}
@@ -86,4 +92,31 @@ Return ONLY valid JSON in this exact format:
       riskFactors: ["Drought conditions", "Market price fluctuations", "Pest pressure"]
     })
   }
+}
+
+function getCountryContext(countryCode: string) {
+  const contexts: Record<string, { name: string; agricultural_factors: string }> = {
+    'USA': {
+      name: 'United States',
+      agricultural_factors: `
+- Diverse agricultural zones from temperate to arid climates
+- Advanced irrigation systems and precision agriculture technology
+- Focus on corn, soybeans, wheat, and specialty crops
+- Drought-resistant varieties developed for Great Plains and Southwest
+- Emphasis on water-efficient farming and soil conservation
+- Market access through established distribution networks`
+    },
+    'IND': {
+      name: 'India',
+      agricultural_factors: `
+- Monsoon-dependent agriculture with kharif and rabi seasons
+- Traditional farming practices mixed with modern techniques
+- Focus on rice, wheat, pulses, and cash crops like cotton
+- Water scarcity issues requiring drought-tolerant varieties
+- Small-scale farming with limited mechanization
+- Emphasis on food security and sustainable practices`
+    }
+  }
+  
+  return contexts[countryCode] || contexts['USA']
 }
