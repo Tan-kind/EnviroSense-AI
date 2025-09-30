@@ -126,80 +126,98 @@ export function LocationSelector({
   const displayText = selectedCountry ? selectedCountry.name : 'Select Location'
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant={variant}
-          size={size}
-          disabled={isLoading}
-          className={cn(
-            "flex items-center gap-2 min-w-[140px]",
-            className
-          )}
-        >
-          {isLoading ? (
-            <>
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
-              <span>Updating...</span>
-            </>
-          ) : selectedCountry ? (
-            <>
+    <div className="relative">
+      <Button
+        variant={variant}
+        size={size}
+        disabled={isLoading}
+        onClick={() => setIsOpen(!isOpen)}
+        className={cn(
+          "flex items-center gap-2 min-w-[140px] justify-between",
+          className
+        )}
+      >
+        {isLoading ? (
+          <>
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />
+            <span>Updating...</span>
+          </>
+        ) : selectedCountry ? (
+          <>
+            <div className="flex items-center gap-2">
               <span className="text-base">{selectedCountry.flag}</span>
               <span className="font-medium">{displayText}</span>
-            </>
-          ) : (
-            <>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex items-center gap-2">
               <Globe className="h-4 w-4" />
               <span>Select Location</span>
-            </>
-          )}
-          <ChevronDown className="h-4 w-4 ml-auto" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-72">
-        <div className="p-2">
-          <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search countries..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8"
-            />
+            </div>
+          </>
+        )}
+        <ChevronDown className={cn("h-4 w-4 transition-transform", isOpen && "rotate-180")} />
+      </Button>
+
+      {isOpen && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50 max-h-80 overflow-hidden">
+          <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Search countries..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 w-full"
+                autoFocus
+              />
+            </div>
           </div>
-        </div>
-        <div className="max-h-60 overflow-y-auto">
-          {filteredCountries.map((country) => (
-            <DropdownMenuItem
-              key={country.code}
-              onClick={() => handleLocationSelect(country)}
-              className="flex items-center gap-3 cursor-pointer"
-            >
-              <span className="text-base">{country.flag}</span>
-              <div className="flex flex-col">
-                <span className="font-medium">{country.name}</span>
-                {(country.code === 'usa' || country.code === 'india') && (
-                  <span className="text-xs text-muted-foreground">
-                    Dynamic content available
-                  </span>
+          
+          <div className="max-h-60 overflow-y-auto">
+            {filteredCountries.map((country) => (
+              <div
+                key={country.code}
+                onClick={() => handleLocationSelect(country)}
+                className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition-colors"
+              >
+                <span className="text-base">{country.flag}</span>
+                <div className="flex flex-col flex-1">
+                  <span className="font-medium text-sm">{country.name}</span>
+                  {(country.code === 'usa' || country.code === 'india') && (
+                    <span className="text-xs text-green-600 dark:text-green-400">
+                      ✓ Dynamic content available
+                    </span>
+                  )}
+                </div>
+                {selectedCountry?.code === country.code && (
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 )}
               </div>
-            </DropdownMenuItem>
-          ))}
-          {filteredCountries.length === 0 && (
-            <div className="p-4 text-center text-muted-foreground">
-              No countries found
+            ))}
+            {filteredCountries.length === 0 && (
+              <div className="p-4 text-center text-gray-500 dark:text-gray-400">
+                No countries found
+              </div>
+            )}
+          </div>
+          
+          <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            <div className="text-xs text-gray-600 dark:text-gray-400">
+              Your location helps us show relevant resources and programs
             </div>
-          )}
-        </div>
-        
-        <div className="mt-2 pt-2 border-t">
-          <div className="px-3 py-2 text-xs text-muted-foreground">
-            Your location helps us show relevant resources and programs
           </div>
         </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      )}
+
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-40" 
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+    </div>
   )
 }
 
