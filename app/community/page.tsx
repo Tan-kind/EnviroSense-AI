@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Calendar, MapPin, ExternalLink, Users, Newspaper, CalendarDays } from 'lucide-react'
 import { storyblokService } from '@/lib/storyblok-service'
 import type { CommunityUpdate, EventItem, NewsItem } from '@/lib/storyblok-service'
-import { CustomLanguageSelector } from '@/components/ui/custom-language-selector'
+import { SimpleLanguageSelector } from '@/components/ui/simple-language-selector'
 import { translationService } from '@/lib/translation-service'
 import { useCountryTheme } from '@/hooks/useCountryTheme'
 import Image from 'next/image'
@@ -46,32 +46,31 @@ export default function CommunityPage() {
   }, [country, selectedLanguage])
 
   useEffect(() => {
-    const handleLanguageChange = (languageCode: string) => {
-      console.log('Language changed to:', languageCode)
-      setSelectedLanguage(languageCode)
-    }
-
     const loadTranslations = async () => {
       if (selectedLanguage !== 'en') {
-        const pageTranslations = await translationService.translatePage({
+        console.log('Language changed to:', selectedLanguage, '- Content should load from Storyblok with language parameter')
+        // Note: UI translations are handled by Storyblok content with language parameter
+        // Only translate static UI elements that are not from Storyblok
+        const staticUITranslations = {
           'Community & Environmental Hub': 'Community & Environmental Hub',
           'Stay connected with expert insights, upcoming events, and the latest environmental news': 'Stay connected with expert insights, upcoming events, and the latest environmental news',
           'Community Updates': 'Community Updates',
-          'Environmental Events': 'Environmental Events',
+          'Environmental Events': 'Environmental Events', 
           'Latest News': 'Latest News',
-          'Community Resource Updates': 'Community Resource Updates',
-          'Latest updates from agricultural experts and extension services': 'Latest updates from agricultural experts and extension services',
-          'Upcoming conferences, workshops, and training programs': 'Upcoming conferences, workshops, and training programs',
-          'Recent updates on environmental policies and initiatives': 'Recent updates on environmental policies and initiatives',
-          'Register Now': 'Register Now',
-          'Read More': 'Read More'
-        }, selectedLanguage)
-        setTranslations(pageTranslations)
+          'No updates available': 'No updates available',
+          'No events available': 'No events available',
+          'No news available': 'No news available',
+          'Loading...': 'Loading...'
+        }
+        
+        // Only translate if Storyblok doesn't have translations configured
+        // In production, these would come from Storyblok with proper language parameter
+        setTranslations(staticUITranslations)
       } else {
         setTranslations({})
       }
     }
-    
+
     loadTranslations()
   }, [selectedLanguage])
 
@@ -91,7 +90,7 @@ export default function CommunityPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <CustomLanguageSelector 
+            <SimpleLanguageSelector 
               onLanguageChange={(lang: string) => {
                 console.log('Language selector clicked, changing to:', lang)
                 setSelectedLanguage(lang)

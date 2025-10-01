@@ -80,31 +80,32 @@ class StoryblokService {
       const countryCode = country.toLowerCase()
       const featureSlug = feature.toLowerCase().replace(/[-_]/g, '-')
       
-      console.log(`Attempting to fetch: resources/${countryCode}/${featureSlug}`)
+      console.log(`Fetching resource: resources/${countryCode}/${featureSlug} in language: ${language}`)
       
       const api = this.getApi()
-      console.log('API instance created:', !!api)
       
-      const { data } = await api.get(`cdn/stories/resources/${countryCode}/${featureSlug}`, {
-        version: 'published',
-        language: language,
-        fallback_lang: 'en'
-      })
+      const params: any = {
+        version: 'published'
+      }
+      
+      // Only add language params if not English (Storyblok default)
+      if (language !== 'en') {
+        params.language = language
+        params.fallback_lang = 'en'
+        console.log('Adding language parameters:', params)
+      }
+      
+      const { data } = await api.get(`cdn/stories/resources/${countryCode}/${featureSlug}`, params)
 
-      console.log('Raw Storyblok response:', JSON.stringify(data, null, 2))
-      
       if (data && data.story && data.story.content) {
         const transformed = this.transformResourceSection(data.story.content)
-        console.log('Transformed data:', JSON.stringify(transformed, null, 2))
+        console.log(`Resource loaded in ${language}:`, transformed.feature_name)
         return transformed
       }
       
       return null
     } catch (error) {
-      console.error(`Failed to fetch resource section for ${country}/${feature}:`, error)
-      if (error instanceof Error) {
-        console.error('Error details:', error.message)
-      }
+      console.error(`Failed to fetch resource section for ${country}/${feature} in ${language}:`, error)
       return null
     }
   }
@@ -113,14 +114,19 @@ class StoryblokService {
     try {
       const countryCode = country.toLowerCase()
       
-      console.log(`Attempting to fetch theme: themes/${countryCode}`)
+      console.log(`Fetching theme: themes/${countryCode} in language: ${language}`)
       
-      const { data: allStories } = await this.getApi().get('cdn/stories', {
+      const params: any = {
         version: 'published',
-        starts_with: 'themes/',
-        language: language,
-        fallback_lang: 'en'
-      })
+        starts_with: 'themes/'
+      }
+      
+      if (language !== 'en') {
+        params.language = language
+        params.fallback_lang = 'en'
+      }
+      
+      const { data: allStories } = await this.getApi().get('cdn/stories', params)
       
       console.log('Available theme stories:', allStories.stories.map((s: any) => s.full_slug))
       
