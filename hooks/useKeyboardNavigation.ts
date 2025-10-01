@@ -23,48 +23,39 @@ export function useKeyboardNavigation() {
         switch (event.key) {
           case '1':
             event.preventDefault()
-            router.push('/dashboard')
+            router.push('/scanner')
             break
           case '2':
             event.preventDefault()
-            router.push('/scanner')
+            router.push('/chat')
             break
           case '3':
             event.preventDefault()
-            router.push('/chat')
+            router.push('/community')
             break
           case '4':
             event.preventDefault()
-            router.push('/simulator')
+            router.push('/goals')
             break
           case '5':
             event.preventDefault()
-            router.push('/goals')
+            router.push('/drought-crops')
             break
           case '6':
             event.preventDefault()
-            router.push('/drought-crops')
+            router.push('/water-conservation')
             break
           case '7':
             event.preventDefault()
-            router.push('/water-conservation')
+            router.push('/solar-optimizer')
             break
           case '8':
             event.preventDefault()
-            router.push('/solar-optimizer')
+            router.push('/habitat-protection')
             break
           case '9':
             event.preventDefault()
-            router.push('/habitat-protection')
-            break
-          case '0':
-            event.preventDefault()
             router.push('/farm-equipment')
-            break
-          case 'b':
-          case 'B':
-            event.preventDefault()
-            router.push('/bushfire-risk')
             break
           case 'h':
           case 'H':
@@ -134,17 +125,15 @@ export function useKeyboardNavigation() {
   }
 
   const getKeyboardShortcuts = () => [
-    { keys: "Alt + 1", action: "Go to Dashboard", route: "/dashboard" },
-    { keys: "Alt + 2", action: "Go to Scanner", route: "/scanner" },
-    { keys: "Alt + 3", action: "Go to Chat", route: "/chat" },
-    { keys: "Alt + 4", action: "Go to Simulator", route: "/simulator" },
-    { keys: "Alt + 5", action: "Go to Goals", route: "/goals" },
-    { keys: "Alt + 6", action: "Go to Drought Crops", route: "/drought-crops" },
-    { keys: "Alt + 7", action: "Go to Water Conservation", route: "/water-conservation" },
-    { keys: "Alt + 8", action: "Go to Solar Optimizer", route: "/solar-optimizer" },
-    { keys: "Alt + 9", action: "Go to Habitat Protection", route: "/habitat-protection" },
-    { keys: "Alt + 0", action: "Go to Farm Equipment", route: "/farm-equipment" },
-    { keys: "Alt + B", action: "Go to Bushfire Risk", route: "/bushfire-risk" },
+    { keys: "Alt + 1", action: "Go to Scanner", route: "/scanner" },
+    { keys: "Alt + 2", action: "Go to Chat", route: "/chat" },
+    { keys: "Alt + 3", action: "Go to Community", route: "/community" },
+    { keys: "Alt + 4", action: "Go to Goals", route: "/goals" },
+    { keys: "Alt + 5", action: "Go to Drought Crops", route: "/drought-crops" },
+    { keys: "Alt + 6", action: "Go to Water Conservation", route: "/water-conservation" },
+    { keys: "Alt + 7", action: "Go to Solar Optimizer", route: "/solar-optimizer" },
+    { keys: "Alt + 8", action: "Go to Habitat Protection", route: "/habitat-protection" },
+    { keys: "Alt + 9", action: "Go to Farm Equipment", route: "/farm-equipment" },
     { keys: "Alt + H", action: "Go to Home", route: "/" },
     { keys: "Ctrl + /", action: "Toggle Voice Navigation", route: null },
     { keys: "Tab", action: "Navigate between elements", route: null },

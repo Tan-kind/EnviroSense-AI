@@ -1,29 +1,24 @@
 # 🌍 EnviroSense AI - Intelligent Climate Action Platform
 
-[![Next.js](https://img.shields.io/badge/Next.js-14.2.16-black)](https://nextjs.org/)
-[![Storyblok](https://img.shields.io/badge/Storyblok-CMS-00b3b0)](https://www.storyblok.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.0-38bdf8)](https://tailwindcss.com/)
 
-## 🌐 **Advanced Multilingual Support**
+## 🌐 **Multilingual Support**
 
-### Complete Translation Infrastructure
-- ✅ **AI Translation Service**: Google Gemini-powered context-aware translations
-- ✅ **8+ Language Support**: Hindi, Spanish, French, German, Portuguese, Chinese, Japanese, Arabic, Russian, Korean
+### Storyblok-Powered Internationalization
+- ✅ **2 Language Support**: English and Hindi
+- ✅ **Storyblok Multilingual**: Native CMS internationalization features
 - ✅ **Real-time Language Switching**: No page reload required
 - ✅ **Custom Language Selector**: Built with Tailwind CSS and proper accessibility
-- ✅ **Storyblok Integration**: All API calls include language parameters
-- ✅ **Environmental Context**: Translations optimized for climate/agricultural terminology
+- ✅ **CMS Integration**: All API calls include language parameters
+- ✅ **Content Translation**: Managed through Storyblok's built-in translation system
 
-### Translation Features
-- **Smart UI Translation**: Bulk page translation with caching
-- **Language Persistence**: Browser memory integration
+### Language Features
+- **Language Selector**: Dropdown with flag indicators for English and Hindi
 - **Fallback System**: Graceful degradation to English
-- **Professional Interface**: Flag indicators and native language names
+- **Professional Interface**: Native language names with flag indicators
 - **Accessibility**: Screen reader support and keyboard navigation
 
-### Storyblok Multilingual Ready
-Complete API integration with language parameters - ready for Storyblok internationalization configuration.
+### Storyblok Multilingual Integration
+Complete API integration with language parameters using Storyblok's native internationalization features.
 
 ## 🏆 **Hackathon Features**
 
@@ -35,45 +30,42 @@ Complete API integration with language parameters - ready for Storyblok internat
 - **Location-Based Theming** with custom backgrounds
 
 ### 🌍 **Multilingual Support**
-- **8+ Languages**: Hindi, Spanish, French, German, Portuguese, Chinese, Japanese, Arabic
-- **AI Translation Service** powered by Google Gemini
+- **2 Languages**: English and Hindi
+- **Storyblok Multilingual**: Native CMS internationalization
 - **Real-time Language Switching** with no page reload
-- **Storyblok-Ready**: API calls include language parameters
+- **Language Selector**: Custom dropdown with flag indicators
 
 ### ♿ **Comprehensive Accessibility**
 
-### Screen Reader Support
+### Accessibility Features
 - **Semantic HTML**: Proper heading hierarchy and landmarks
-- **ARIA Labels**: All interactive elements properly labeled
+- **ARIA Labels**: Interactive elements properly labeled
 - **Image Alt Text**: Descriptive alt text from Storyblok content
-- **Screen Reader Testing**: Compatible with NVDA, VoiceOver, and JAWS
 
 ### Keyboard Navigation
-- **Full Keyboard Support**: All features accessible without mouse
+- **Feature Page Navigation**: Keyboard shortcuts for climate tools
 - **Focus Management**: Proper focus indicators and tab order
 - **Dropdown Navigation**: Arrow key support for language selector
-- **Skip Links**: Quick navigation to main content
+- **Accessibility Toolbar**: Keyboard shortcuts (Alt+1-9, Alt+H, Alt+B)
 
 ### Visual Accessibility
 - **High Contrast**: Optimized text visibility across all themes
-- **Responsive Design**: Mobile-optimized with proper touch targets (44px minimum)
 - **Color Indicators**: Visual and text-based content source indicators
 - **Loading States**: Accessible skeleton animations during data loading
 
-### Voice Features Integration
-- **Voice Recording**: Simple voice recording hooks available
-- **Speech Synthesis**: Browser-based text-to-speech support
-- **Voice Commands**: Framework ready for voice navigation
+### Voice Features
+- **Voice Navigation**: Voice commands for page navigation
+- **Voice Input**: AI page assistant with voice command support
+- **Speech Synthesis**: Text-to-speech for AI responses
 
-### Accessibility Testing
-Comprehensive testing guide available at `/self-docs/accessibility/ACCESSIBILITY_TESTING_GUIDE.md`
+
 
 ## 🛠️ **Tech Stack**
 
 - **Frontend**: Next.js 14, React Server Components, TypeScript
 - **Styling**: Tailwind CSS, shadcn/ui components
-- **CMS**: Storyblok with @storyblok/react/rsc
-- **AI Services**: Google Gemini for translation
+- **CMS**: Storyblok with multilingual support
+- **AI Services**: Google Gemini for climate tools
 - **Authentication**: Supabase Auth
 - **Deployment**: Vercel-ready
 
@@ -93,6 +85,9 @@ cp env.example .env.local
 # - STORYBLOK_ACCESS_TOKEN
 # - GOOGLE_GEMINI_API_KEY
 # - SUPABASE_URL & SUPABASE_ANON_KEY
+...
+
+# Set up database on Supabase
 
 # Run development server
 npm run dev
@@ -113,6 +108,7 @@ npm run dev
 - **Latest News**: Policy updates through Storyblok `news_item` content management
 - **Country-Specific Content**: USA/India content with automatic fallback system
 - **Professional Tabbed Interface**: Modern UI with Storyblok-powered content
+- **Multilingual Support**: English and Hindi language selection
 
 ### 🤖 **AI-Powered Features**
 - **Climate Mentor**: Conversational AI for personalized climate advice
@@ -125,8 +121,8 @@ npm run dev
 
 ### Innovation Achievements
 - **Complete CMS Integration**: 19+ Storyblok stories across 5 content types
-- **Multilingual Excellence**: 8+ languages with AI-powered translation
-- **Accessibility First**: Comprehensive screen reader and keyboard support
+- **Multilingual Excellence**: 2 languages with Storyblok internationalization
+- **Accessibility First**: Voice navigation and keyboard shortcuts
 - **Professional UI**: Modern design with shadcn/ui components
 - **Type Safety**: Full TypeScript implementation
 - **Performance Optimized**: Next.js 14 with React Server Components
@@ -183,46 +179,24 @@ npm run lint         # Run ESLint
 npm run type-check   # TypeScript type checking
 ```
 
-### Performance Optimizations
-- **Next.js 14**: React Server Components for optimal performance
-- **Static Generation**: Pre-rendered pages where possible
-- **Image Optimization**: Next.js Image component with proper loading
-- **Code Splitting**: Automatic route-based code splitting
-- **Caching Strategy**: Efficient Storyblok content caching
-
-### Type Safety
-- **Full TypeScript**: Complete type coverage across the application
-- **Storyblok Types**: Custom interfaces for all content types
-- **API Type Safety**: Typed responses from all external services
-- **Component Props**: Strict typing for all React components
 
 ## 📊 **Storyblok CMS Integration**
 
 ### Complete Content Management System
-```
-📁 Storyblok Space (19+ Stories)
-├── 🌍 Dynamic Resources (10 endpoints)
-│   ├── resources/usa/drought-crops
-│   ├── resources/usa/water-conservation
-│   ├── resources/usa/solar-optimizer
-│   ├── resources/usa/habitat-protection
-│   ├── resources/usa/farm-equipment
-│   ├── resources/india/drought-crops
-│   ├── resources/india/water-conservation
-│   ├── resources/india/solar-optimizer
-│   ├── resources/india/habitat-protection
-│   └── resources/india/farm-equipment
-├── 🎨 Location-Based Theming (2 endpoints)
-│   ├── themes/usa (custom backgrounds & content)
-│   └── themes/india (localized homepage themes)
-└── 👥 Community Management (6 endpoints)
-    ├── community-hub/usa/resource-updates
-    ├── community-hub/india/resource-updates
-    ├── events-news/usa/environmental-events/
-    ├── events-news/usa/latest-news/
-    ├── events-news/india/environmental-events/
-    └── events-news/india/latest-news/
-```
+
+**📊 Storyblok Integration**
+- **19+ Content Stories** across 5 content types
+- **Dynamic Resources** for all 5 climate features (Drought Crops, Water Conservation, Solar Optimizer, Habitat Protection, Farm Equipment)
+- **Location-Based Content** for USA and India with automatic fallbacks
+- **Community Hub** with events, news, and expert updates
+- **Multilingual Support** for English and Hindi
+
+**Key Content Types:**
+- `resource_section` - Climate tool content with categories and items
+- `country_theme` - Location-based homepage theming
+- `community_update` - Expert agricultural insights
+- `event_item` - Environmental events with images
+- `news_item` - Policy updates and environmental news
 
 ### Advanced Content Types
 - **resource_section**: Structured climate resource data with categories and items
@@ -232,7 +206,7 @@ npm run type-check   # TypeScript type checking
 - **news_item**: Policy updates and environmental news with categorization
 
 ### Content Management Features
-- **Dynamic Resource Loading**: All 5 climate features load from Storyblok
+- **Dynamic Resource Loading**: All climate features load from Storyblok
 - **Country-Specific Content**: Automatic content switching based on location
 - **Fallback System**: Seamless experience for unsupported regions
 - **Image Management**: Event images with proper alt text for accessibility

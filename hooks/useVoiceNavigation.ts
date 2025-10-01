@@ -11,17 +11,15 @@ interface VoiceCommand {
 
 const routeCommands: VoiceCommand[] = [
   { keywords: ['home', 'main'], route: '/', description: 'home' },
-  { keywords: ['dashboard', 'climate dashboard'], route: '/dashboard', description: 'climate dashboard' },
+  { keywords: ['scanner', 'scan', 'camera', 'impact scanner'], route: '/scanner', description: 'impact scanner' },
+  { keywords: ['chat', 'mentor', 'ai', 'advisor'], route: '/chat', description: 'AI climate advisor' },
+  { keywords: ['community', 'community hub', 'hub'], route: '/community', description: 'community hub' },
+  { keywords: ['goals', 'track', 'progress', 'goal tracking'], route: '/goals', description: 'smart goal tracking' },
   { keywords: ['crops', 'drought crops', 'farming'], route: '/drought-crops', description: 'drought-resistant crops' },
   { keywords: ['water', 'conservation', 'water conservation'], route: '/water-conservation', description: 'water conservation' },
   { keywords: ['solar', 'solar optimizer', 'solar panels'], route: '/solar-optimizer', description: 'solar panel optimizer' },
   { keywords: ['habitat', 'protection', 'habitat protection'], route: '/habitat-protection', description: 'habitat protection' },
-  { keywords: ['farm', 'equipment', 'carbon calculator'], route: '/farm-equipment', description: 'farm carbon calculator' },
-  { keywords: ['bushfire', 'fire risk', 'bushfire risk'], route: '/bushfire-risk', description: 'bushfire risk assessment' },
-  { keywords: ['scanner', 'scan', 'camera', 'impact scanner'], route: '/scanner', description: 'impact scanner' },
-  { keywords: ['chat', 'mentor', 'ai', 'advisor'], route: '/chat', description: 'AI climate advisor' },
-  { keywords: ['simulator', 'simulate', 'predict', 'impact predictor'], route: '/simulator', description: 'impact predictor' },
-  { keywords: ['goals', 'track', 'progress', 'goal tracking'], route: '/goals', description: 'smart goal tracking' }
+  { keywords: ['farm', 'equipment', 'carbon calculator'], route: '/farm-equipment', description: 'farm carbon calculator' }
 ]
 
 export function useVoiceNavigation() {
