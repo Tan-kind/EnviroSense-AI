@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Calendar, MapPin, ExternalLink, Users, Newspaper, CalendarDays } from 'lucide-react'
 import { storyblokService } from '@/lib/storyblok-service'
 import type { CommunityUpdate, EventItem, NewsItem } from '@/lib/storyblok-service'
-import { LanguageSelector } from '@/components/ui/language-selector'
+import { CustomLanguageSelector } from '@/components/ui/custom-language-selector'
 import { translationService } from '@/lib/translation-service'
 import { useCountryTheme } from '@/hooks/useCountryTheme'
 import Image from 'next/image'
@@ -46,6 +46,11 @@ export default function CommunityPage() {
   }, [country, selectedLanguage])
 
   useEffect(() => {
+    const handleLanguageChange = (languageCode: string) => {
+      console.log('Language changed to:', languageCode)
+      setSelectedLanguage(languageCode)
+    }
+
     const loadTranslations = async () => {
       if (selectedLanguage !== 'en') {
         const pageTranslations = await translationService.translatePage({
@@ -86,8 +91,11 @@ export default function CommunityPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <LanguageSelector 
-              onLanguageChange={setSelectedLanguage}
+            <CustomLanguageSelector 
+              onLanguageChange={(lang: string) => {
+                console.log('Language selector clicked, changing to:', lang)
+                setSelectedLanguage(lang)
+              }}
               currentLanguage={selectedLanguage}
               size="md"
             />
