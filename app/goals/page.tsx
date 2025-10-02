@@ -175,6 +175,10 @@ export default function GoalsPage() {
         data: { session },
       } = await supabase.auth.getSession();
 
+      // Get selected location from browser storage
+      const selectedLocationObj = localStorage.getItem('envirosense-location')
+      const selectedCountry = selectedLocationObj ? JSON.parse(selectedLocationObj).name : 'USA'
+
       const response = await fetch("/api/calculate-impact", {
         method: "POST",
         headers: {
@@ -185,6 +189,7 @@ export default function GoalsPage() {
           goal_title: title,
           goal_description: description,
           duration_days: days,
+          selectedCountry: selectedCountry,
         }),
       });
 

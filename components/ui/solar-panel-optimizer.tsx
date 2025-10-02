@@ -74,6 +74,10 @@ export function SolarPanelOptimizer() {
     setLoading(true)
     
     try {
+      // Get selected location from browser storage
+      const selectedLocationObj = localStorage.getItem('envirosense-location')
+      const selectedCountry = selectedLocationObj ? JSON.parse(selectedLocationObj).name : 'USA'
+      
       // Use Gemini AI to optimize solar panel setup
       const response = await fetch('/api/solar-optimizer', {
         method: 'POST',
@@ -85,13 +89,14 @@ export function SolarPanelOptimizer() {
           roofArea: propertyData.roofArea,
           energyUsage: propertyData.currentElectricityBill * 3, // Approximate kWh from bill
           location: propertyData.location,
-          budget: null
+          budget: null,
+          selectedCountry: selectedCountry
         })
       })
       
       if (response.ok) {
         const data = await response.json()
-        
+
         // Map API response to component interface
         const panelCapacity = parseFloat(data.systemRecommendation?.panelCapacity?.toString().replace(/[^\d.]/g, '') || '0')
         const annualGeneration = parseFloat(data.energyProduction?.annualGeneration?.toString().replace(/[^\d.]/g, '') || '0')
@@ -245,20 +250,15 @@ export function SolarPanelOptimizer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <Label htmlFor="location">Location</Label>
-              <Select value={propertyData.location} onValueChange={(value) => 
-                setPropertyData(prev => ({ ...prev, location: value }))
-              }>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select outback location" />
-                </SelectTrigger>
-                <SelectContent>
-                  {australianLocations.map(location => (
-                    <SelectItem key={location.value} value={location.value}>
-                      {location.label} ({location.solarHours}h sun/day)
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Input
+                id="location"
+                value={propertyData.location}
+                onChange={(e) => setPropertyData(prev => ({
+                  ...prev,
+                  location: e.target.value
+                }))}
+                placeholder=""
+              />
             </div>
 
             <div>
@@ -276,7 +276,7 @@ export function SolarPanelOptimizer() {
             </div>
 
             <div>
-              <Label htmlFor="electricity-bill">Monthly Electricity Bill ($AUD)</Label>
+              <Label htmlFor="electricity-bill">Monthly Electricity Bill</Label>
               <Input
                 id="electricity-bill"
                 type="number"
@@ -363,6 +363,8 @@ export function SolarPanelOptimizer() {
       </Card>
 
       {/* Optimization Results */}
+      
+      
       {optimization && (
         <div className="space-y-6">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white">

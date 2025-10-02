@@ -68,6 +68,10 @@ export function DroughtResistantCrops() {
     setLoading(true)
     
     try {
+      // Get selected location from browser storage
+      const selectedLocationObj = localStorage.getItem('envirosense-location')
+      const selectedCountry = selectedLocationObj ? JSON.parse(selectedLocationObj).name : 'USA'
+      
       // Use Gemini AI to generate drought-resistant crop recommendations
       const response = await fetch('/api/drought-crops', {
         method: 'POST',
@@ -79,7 +83,8 @@ export function DroughtResistantCrops() {
           soilType: conditions.soilType,
           rainfall: conditions.annualRainfall,
           farmSize: conditions.farmSize,
-          currentCrops: conditions.currentCrops.join(', ')
+          currentCrops: conditions.currentCrops.join(', '),
+          selectedCountry: selectedCountry
         })
       })
       
@@ -262,20 +267,15 @@ export function DroughtResistantCrops() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <Label htmlFor="location">Region</Label>
-              <Select value={conditions.location} onValueChange={(value) => 
-                setConditions(prev => ({ ...prev, location: value }))
-              }>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select region" />
-                </SelectTrigger>
-                <SelectContent>
-                  {australianRegions.map(region => (
-                    <SelectItem key={region.value} value={region.value}>
-                      {region.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Input
+                id="location"
+                value={conditions.location}
+                onChange={(e) => setConditions(prev => ({
+                  ...prev,
+                  location: e.target.value
+                }))}
+                placeholder=""
+              />
             </div>
 
             <div>

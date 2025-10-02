@@ -63,7 +63,7 @@ function getFallbackResponse(equipmentType: string, fuelType: string, hoursPerWe
 
 export async function POST(request: NextRequest) {
   try {
-    const { equipmentType, fuelType, hoursPerWeek, farmSize, region } = await request.json()
+    const { equipmentType, fuelType, hoursPerWeek, farmSize, region, selectedCountry } = await request.json()
 
     if (!equipmentType || !fuelType || !hoursPerWeek) {
       return NextResponse.json({ error: 'Equipment details are required' }, { status: 400 })
@@ -79,6 +79,7 @@ EQUIPMENT DETAILS:
 - Hours per Week: ${hoursPerWeek}
 - Farm Size: ${farmSize} hectares
 - Region: ${region || 'Rural area'}
+- Country/Location: ${selectedCountry || 'Global'}
 
 Calculate realistic carbon emissions based on:
 - Standard fuel consumption rates for farm equipment
@@ -141,6 +142,7 @@ Focus on practical farming conditions, equipment availability, and realistic emi
 
   } catch (error) {
     console.error('Farm equipment API error:', error)
+    const { equipmentType, fuelType, hoursPerWeek, farmSize } = await request.json()
     return getFallbackResponse(equipmentType || 'Tractor', fuelType || 'Diesel', hoursPerWeek || 10, farmSize || 100)
   }
 }

@@ -423,6 +423,10 @@ export default function ChatPage() {
     setIsLoading(true);
 
     try {
+      // Get selected location from browser storage
+      const selectedLocationObj = localStorage.getItem('envirosense-location')
+      const selectedCountry = selectedLocationObj ? JSON.parse(selectedLocationObj).name : 'USA'
+
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -432,6 +436,7 @@ export default function ChatPage() {
           message: inputMessage,
           history: messages.map((m) => ({ role: m.role, content: m.content })),
           location: getLocationForChat(),
+          selectedCountry: selectedCountry,
         }),
       });
 

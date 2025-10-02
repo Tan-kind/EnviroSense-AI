@@ -105,6 +105,10 @@ export function SimpleChat() {
     setIsLoading(true)
 
     try {
+      // Get selected location from browser storage
+      const selectedLocationObj = localStorage.getItem('envirosense-location')
+      const selectedCountry = selectedLocationObj ? JSON.parse(selectedLocationObj).name : 'USA'
+      
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
@@ -112,6 +116,7 @@ export function SimpleChat() {
         },
         body: JSON.stringify({
           message: message.trim(),
+          selectedCountry: selectedCountry
         }),
       })
 

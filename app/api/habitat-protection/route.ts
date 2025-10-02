@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
-  const { assessment } = body
+  const { assessment, selectedCountry } = body
 
   if (!assessment || !assessment.region || !assessment.habitatType) {
     return NextResponse.json(
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       { status: 400 }
     )
   }
-
+  
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' })
 
@@ -52,7 +52,7 @@ Focus on:
 - Integration with existing land management practices
 - Compliance with local environmental regulations
 
-Return the response as a JSON object with this structure:
+Return the response as a JSON object with this example structure just remember the currency in us dollars
 {
   "recommendations": [
     {

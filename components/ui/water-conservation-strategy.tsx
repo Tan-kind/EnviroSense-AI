@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { Droplets, Calculator, TrendingUp, Lightbulb, ChevronDown, ChevronUp } from 'lucide-react'
+import { Droplets, Calculator, TrendingUp, Lightbulb, ChevronDown, ChevronUp, DollarSign, Leaf } from 'lucide-react'
 
 interface WaterStrategy {
   strategy: string
@@ -68,6 +68,10 @@ export function WaterConservationStrategy() {
     setLoading(true)
     
     try {
+      // Get selected location from browser storage
+      const selectedLocationObj = localStorage.getItem('envirosense-location')
+      const selectedCountry = selectedLocationObj ? JSON.parse(selectedLocationObj).name : 'USA'
+      
       // Use Gemini AI to generate water conservation strategies
       const response = await fetch('/api/water-conservation', {
         method: 'POST',
@@ -79,6 +83,7 @@ export function WaterConservationStrategy() {
           currentUsage: farmData.currentUsage,
           waterSources: farmData.waterSource,
           region: farmData.region,
+          selectedCountry: selectedCountry
         })
       })
       

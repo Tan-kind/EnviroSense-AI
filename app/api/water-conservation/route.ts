@@ -10,11 +10,11 @@ export async function POST(request: NextRequest) {
       currentUsage, 
       location, 
       budget, 
-      waterSource 
+      waterSource,
+      selectedCountry 
     } = await request.json()
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
-
     const prompt = `You are a water conservation expert. Analyze water usage for ${location || 'your region'} and provide practical conservation strategies.
 
 Property: ${propertySize}
@@ -22,6 +22,8 @@ Current usage: ${currentUsage} L/day
 Location: ${location || 'your region'}
 Budget: $${budget || 5000}
 Water source: ${waterSource || 'mains water'}
+
+note : The currency should be in us dollars
 
 Return ONLY a JSON object:
 {

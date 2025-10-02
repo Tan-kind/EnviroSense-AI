@@ -72,13 +72,18 @@ export function HabitatProtectionRecommendations() {
     setLoading(true)
     
     try {
+      // Get selected location from browser storage
+      const selectedLocationObj = localStorage.getItem('envirosense-location')
+      const selectedCountry = selectedLocationObj ? JSON.parse(selectedLocationObj).name : 'USA'
+      
       const response = await fetch('/api/habitat-protection', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          assessment
+          assessment,
+          selectedCountry: selectedCountry
         }),
       })
 
@@ -286,7 +291,7 @@ export function HabitatProtectionRecommendations() {
                   ...prev,
                   region: e.target.value
                 }))}
-                placeholder="e.g., Murray-Darling Basin"
+                placeholder=""
               />
             </div>
 

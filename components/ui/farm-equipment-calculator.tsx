@@ -72,6 +72,10 @@ export function FarmEquipmentCalculator() {
     setLoading(true)
     
     try {
+      // Get selected location from browser storage
+      const selectedLocationObj = localStorage.getItem('envirosense-location')
+      const selectedCountry = selectedLocationObj ? JSON.parse(selectedLocationObj).name : 'USA'
+      
       // Use Gemini AI to calculate farm equipment carbon footprint
       const response = await fetch('/api/farm-equipment', {
         method: 'POST',
@@ -83,7 +87,8 @@ export function FarmEquipmentCalculator() {
           fuelType: equipment.fuelType,
           hoursPerWeek: equipment.hoursPerWeek,
           farmSize: equipment.area,
-          region: 'global outback'
+          region: 'global outback',
+          selectedCountry: selectedCountry
         })
       })
       

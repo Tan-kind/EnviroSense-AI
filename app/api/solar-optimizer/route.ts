@@ -47,7 +47,7 @@ function getFallbackResponse(propertySize: number, energyUsage: number, location
 
 export async function POST(request: NextRequest) {
   try {
-    const { propertySize, roofArea, energyUsage, location, budget } = await request.json()
+    const { propertySize, roofArea, energyUsage, location, budget, selectedCountry } = await request.json()
 
     if (!propertySize || !energyUsage) {
       return NextResponse.json({ error: 'Property size and energy usage are required' }, { status: 400 })
@@ -62,6 +62,7 @@ PROPERTY DETAILS:
 - Available Roof Area: ${roofArea} square meters
 - Current Energy Usage: ${energyUsage} kWh per month
 - Location: ${location || 'Rural area'}
+- Country/Location: ${selectedCountry || 'Global'}
 - Budget: ${budget ? `$${budget}` : 'Not specified'}
 
 Consider regional solar irradiance, rural installation challenges, grid connection costs, and battery storage needs for remote properties.
@@ -74,7 +75,7 @@ Return ONLY valid JSON in this exact format:
     "panelType": "string panel type",
     "batteryCapacity": "number kWh",
     "inverterSize": "number kW",
-    "estimatedCost": "number in local currency"
+    "estimatedCost": "number in us currency"
   },
   "energyProduction": {
     "dailyGeneration": "number kWh",
@@ -84,11 +85,11 @@ Return ONLY valid JSON in this exact format:
     "gridExport": "number kWh"
   },
   "financialAnalysis": {
-    "totalInvestment": "number in local currency",
-    "annualSavings": "number in local currency",
+    "totalInvestment": "number in us currency",
+    "annualSavings": "number in us currency",
     "paybackPeriod": "string years",
-    "roi25Years": "number in local currency",
-    "governmentRebates": "number in local currency"
+    "roi25Years": "number in us currency",
+    "governmentRebates": "number in us currency"
   },
   "installationGuidance": {
     "optimalTilt": "string degrees",
