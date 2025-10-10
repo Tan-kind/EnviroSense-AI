@@ -94,13 +94,13 @@ export default function GoalsPage() {
   // Local storage helpers for non-authenticated users
   const getLocalGoals = (): Goal[] => {
     if (typeof window === "undefined") return [];
-    const stored = localStorage.getItem("outbackvision-goals");
+    const stored = localStorage.getItem("envirosense -goals");
     return stored ? JSON.parse(stored) : [];
   };
 
   const setLocalGoals = (goals: Goal[]) => {
     if (typeof window === "undefined") return;
-    localStorage.setItem("outbackvision-goals", JSON.stringify(goals));
+    localStorage.setItem("envirosense -goals", JSON.stringify(goals));
   };
 
   const loadGoals = async () => {
@@ -176,8 +176,10 @@ export default function GoalsPage() {
       } = await supabase.auth.getSession();
 
       // Get selected location from browser storage
-      const selectedLocationObj = localStorage.getItem('envirosense-location')
-      const selectedCountry = selectedLocationObj ? JSON.parse(selectedLocationObj).name : 'USA'
+      const selectedLocationObj = localStorage.getItem("envirosense-location");
+      const selectedCountry = selectedLocationObj
+        ? JSON.parse(selectedLocationObj).name
+        : "USA";
 
       const response = await fetch("/api/calculate-impact", {
         method: "POST",

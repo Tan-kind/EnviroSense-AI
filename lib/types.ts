@@ -1,4 +1,4 @@
-// Core types for OutbackVision AI application
+// Core types for EnviroSense AI application
 
 export interface User {
   id: string;

@@ -115,7 +115,7 @@ export function AuthForm({
     <Card className="w-full max-w-md mx-auto">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold text-green-600">
-          OutbackVision AI
+          EnviroSense AI
         </CardTitle>
         <CardDescription>
           Sign in to access your climate action dashboard

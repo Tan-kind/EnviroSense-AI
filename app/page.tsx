@@ -148,7 +148,7 @@ export default function EnviroSenseHome() {
             <div className="flex items-center justify-center space-x-2 mb-4">
               <Sparkles className="h-8 w-8 text-blue-600" />
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                OutbackVision AI
+                EnviroSense AI
               </h1>
             </div>
             <p className="text-gray-600 dark:text-gray-300">
@@ -173,14 +173,16 @@ export default function EnviroSenseHome() {
         {/* Background with gradient overlay */}
         <div
           className={`absolute inset-0 ${
-            themeData?.background_image_url 
-              ? 'bg-gradient-to-br from-gray-900/20 via-gray-800/30 to-gray-900/40' 
-              : 'bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-teal-900/20'
+            themeData?.background_image_url
+              ? "bg-gradient-to-br from-gray-900/20 via-gray-800/30 to-gray-900/40"
+              : "bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-teal-900/20"
           }`}
           style={{
-            backgroundImage: themeData?.background_image_url ? `url(${themeData.background_image_url})` : undefined,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundImage: themeData?.background_image_url
+              ? `url(${themeData.background_image_url})`
+              : undefined,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         >
           {themeData?.background_image_url && (
@@ -199,9 +201,13 @@ export default function EnviroSenseHome() {
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-bold drop-shadow-lg ${
-                themeData?.background_image_url ? 'text-white' : 'text-gray-900 dark:text-white'
-              }`}>
+              <h1
+                className={`text-4xl sm:text-5xl lg:text-6xl font-bold drop-shadow-lg ${
+                  themeData?.background_image_url
+                    ? "text-white"
+                    : "text-gray-900 dark:text-white"
+                }`}
+              >
                 <span className="block">
                   {themeData?.hero_title || "Climate Action"}
                 </span>
@@ -209,9 +215,13 @@ export default function EnviroSenseHome() {
                   Made Simple
                 </span>
               </h1>
-              <p className={`text-xl sm:text-2xl max-w-3xl mx-auto leading-relaxed drop-shadow-md ${
-                themeData?.background_image_url ? 'text-white/90' : 'text-gray-700 dark:text-gray-300'
-              }`}>
+              <p
+                className={`text-xl sm:text-2xl max-w-3xl mx-auto leading-relaxed drop-shadow-md ${
+                  themeData?.background_image_url
+                    ? "text-white/90"
+                    : "text-gray-700 dark:text-gray-300"
+                }`}
+              >
                 {themeData?.hero_subtitle ||
                   "Empowering rural communities with AI-driven environmental solutions. From drought-resistant crops to renewable energy optimization."}
               </p>
@@ -239,7 +249,11 @@ export default function EnviroSenseHome() {
             </div>
             <div className="flex items-center space-x-3">
               <Link href="/community">
-                <Button variant="outline" size="sm" className="rounded-xl border-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-xl border-2"
+                >
                   Community Hub
                 </Button>
               </Link>
@@ -274,7 +288,6 @@ export default function EnviroSenseHome() {
           </div>
         </div>
       </header>
-
 
       {/* Primary Features */}
       <section className="pt-16 pb-20 bg-white/50 dark:bg-gray-900/50">

@@ -1,4 +1,4 @@
-// Constants for OutbackVision AI application
+// Constants for EnviroSense AI application
 
 export const CARBON_CATEGORIES = {
   FOOD: "food",
